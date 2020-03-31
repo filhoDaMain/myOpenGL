@@ -52,13 +52,15 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=lib/libglfw3.a
+LDLIBSOPTIONS=lib/libglfw3.a lib/libGLEW.a
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
 	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/myopengl
 
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/myopengl: lib/libglfw3.a
+
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/myopengl: lib/libGLEW.a
 
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/myopengl: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}

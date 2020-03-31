@@ -43,6 +43,7 @@
         <linkerTool>
           <linkerLibItems>
             <linkerLibFileItem>lib/libglfw3.a</linkerLibFileItem>
+            <linkerLibFileItem>lib/libGLEW.a</linkerLibFileItem>
           </linkerLibItems>
           <commandLine>-framework CoreFoundation -framework CoreGraphics -framework IOKit -framework AppKit -framework OpenGL</commandLine>
         </linkerTool>
