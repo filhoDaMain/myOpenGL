@@ -24,7 +24,14 @@ int main(void)
     {
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
-
+        
+        /* Triangle */
+        glBegin(GL_TRIANGLES);
+        glVertex2f(-0.5f, -0.5f);   // vertex 0
+        glVertex2f(-0.0f,  0.5f);   // vertex 1
+        glVertex2f( 0.5f, -0.5f);   // vertex 2
+        glEnd();
+        
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
 
