@@ -55,6 +55,40 @@ int main(void)
                  positions          /* pointer to data being written into buffer */,
                  GL_STATIC_DRAW);
     
+    /**
+     * Vertex Attributes
+     * 
+     *  Attr    Attribute               Attribute
+     *  Index   Name                    Description
+     *  ---------------------------------------------------------------------------
+     *   0      gl_Vertex               Position (vec4)
+     *   1      gl_Normal               Normal (vec4)
+     *   2      gl_Color                Primary color of vertex (vec4)
+     *   3      gl_MultiTexCoord0       Texture coordinate of texture unit 0 (vec4)
+     *   4      gl_MultiTexCoord1       Texture coordinate of texture unit 1 (vec4)
+     *   5      gl_MultiTexCoord2       Texture coordinate of texture unit 2 (vec4)
+     *   6      gl_MultiTexCoord3       Texture coordinate of texture unit 3 (vec4)
+     *   7      gl_MultiTexCoord4       Texture coordinate of texture unit 4 (vec4)
+     *   8      gl_MultiTexCoord5       Texture coordinate of texture unit 5 (vec4)
+     *   9      gl_MultiTexCoord6       Texture coordinate of texture unit 6 (vec4)
+     *  10      gl_MultiTexCoord7       Texture coordinate of texture unit 7 (vec4)
+     *  11      gl_FogCoord             Fog Coord (float)
+     * 
+     */
+    
+    /* Change position component -> use index 0 */
+    
+    glVertexAttribPointer(0             /* index of vertex attr to be modified (position) */,
+                          2             /* nr of components per this vertex attribute (x_pos, y_pos) */,
+                          GL_FLOAT      /* data type of each vertex component */,
+                          GL_FALSE      /* don't normalize (values are alreay [-1.0f, 1.0f] */,
+                          2*sizeof(float)   /* byte offset between consecutive generic vertex attributes */,
+                          0             /* offset of 1st vertex component */
+                          );
+    
+    /* Enable Position Vertex Attribute */
+    glEnableVertexAttribArray(0 /* index of the generic vertex attribute to be enabled */);
+    
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
