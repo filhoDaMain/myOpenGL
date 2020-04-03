@@ -3,6 +3,87 @@
 
 #include <iostream>
 
+static GLuint compileShader(unsigned int type, const std::string& source)
+{
+    GLuint id = glCreateShader(type);
+    const GLchar* src = source.c_str();
+    
+    /* Program shader: replace source code in a shader object */
+    glShaderSource(id       /* shader (id) to program / replace source code */,
+                   1        /* nr of elements in incomming strng && length arrays */,
+                   &src     /* source code to be loaded into the shader */,
+                   nullptr  /* array of src lengths */
+                            /* (nullptr assumes every string is null terminated \0 ) */);
+    
+    /* Compile shader */
+    glCompileShader(id);
+    
+    /**
+     * Query shader status to check for compile errors
+     * (if any)
+     */
+    GLint status;
+    glGetShaderiv(id, GL_COMPILE_STATUS /* query compile status */, &status);
+    
+    /* Compilation FAILED */
+    if (status == GL_FALSE)
+    {
+        /* Get length of error message */
+        GLint length;
+        glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
+        
+        /* Get the error message */
+        char* emessage = (char *) alloca(length * sizeof(char));  /* stack allocation (auto freed) */
+        /* NOTE: char emmase[length] assumes an infinite available stack -> g++ complains! */
+        
+        /* Get error message from shader log */
+        glGetShaderInfoLog(id, length, &length, emessage /* log */);
+        
+        std::cout << "Failed to compile " <<
+                ( type == GL_VERTEX_SHADER ? "VERTEX" : "FRAGMENT" ) << " shader!"
+                << std::endl;
+        
+        /* Print message */
+        std::cout << emessage << std::endl;
+        
+        /* Delete shader object */
+        glDeleteShader(id);
+        return 0;
+    }
+    
+    /* Return shader id */
+    return id;
+}
+
+static GLuint createShader(const std::string& vertexShader,
+                        const std::string& fragmentShader)
+{
+    /* Crate an empty program object */
+    GLuint program = glCreateProgram();
+    
+    /* Create a Vertex shader object - Compile */
+    GLuint vshader = compileShader(GL_VERTEX_SHADER, vertexShader);
+    
+    /* Create a Fragment shader object - Compile */
+    GLuint fshader = compileShader(GL_FRAGMENT_SHADER, fragmentShader);
+    
+    /* Attach shader objects to a program object - Link */
+    glAttachShader(program, vshader);
+    glAttachShader(program, fshader);
+    glLinkProgram(program);
+    
+    /* Validate */
+    glValidateProgram(program);
+    
+    /**
+     * Now that shaders and program are compiled and linked,
+     * we can delete shader objects to free the associated memory.
+     */
+    glDeleteShader(vshader);
+    glDeleteShader(fshader);
+    
+    return program;
+}
 
 int main(void)
 {
@@ -12,6 +93,18 @@ int main(void)
     if (!glfwInit())
         return -1;
     
+     /**
+      * NOTE:
+      * MacOS uses Legacy Profile as default for all created OpenGL context.
+      * 
+      * Set OpenGL version to 3.2 by issuing glfwWindowHint() calls
+      * before glfwCreateWindow()
+      *  
+      */
+     
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+     
     /* Create a windowed mode window and its OpenGL context */
     window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
     if (!window)
@@ -31,16 +124,18 @@ int main(void)
         std::cout << "Error: " << glewGetErrorString(err) << std::endl;
     }
     
+    /* VAO - Vertex Array Object */
+    GLuint vaoID;
+    glGenVertexArrays(1, &vaoID);
+    glBindVertexArray(vaoID);
+    
     /* Print OpenGL version */
     std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
-    
-    /* Moder OpenGL */
-    /* --------------------------------------------- */
-    
+        
     /* Define my vertices */
     float positions[6] = {
         -0.5f, -0.5f,
-        -0.0f,  0.5f,
+         0.0f,  0.5f,
          0.5f, -0.5f
     };
     
@@ -50,6 +145,7 @@ int main(void)
     
     /* Bind (select) a buffer to write */
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
+    
     glBufferData(GL_ARRAY_BUFFER,
                  sizeof(positions)  /* size (Bytes) of new data */,
                  positions          /* pointer to data being written into buffer */,
@@ -89,27 +185,66 @@ int main(void)
     /* Enable Position Vertex Attribute */
     glEnableVertexAttribArray(0 /* index of the generic vertex attribute to be enabled */);
     
+    
+    /* ************************************ */
+    /*  Create / write shaders source code  */
+    /* ************************************ */
+    
+    /**
+     * Vertex Shader source code - vertices position
+     */
+    /* ------------------------------------------------------------------- */
+    std::string vsSource = 
+            "#version 330 core\n"
+            "\n"
+            "layout(location = 0) in vec4 position;\n"
+            "\n"
+            "void main()\n"
+            "{\n"
+            "   gl_Position = position;\n"
+            "}\n";
+    /**
+     *  layout(location = 0) in vec4 position 
+     * creates a Vector4 position variable and assigns it ('in')
+     * to the attribute index 0 (the attr index for positions)
+     */
+    
+    
+    /**
+     * Fragment Shader source code - vertices colors
+     */
+    /* ------------------------------------------------------------------- */
+    std::string fsSource = 
+            "#version 330 core\n"
+            "\n"
+            "layout(location = 0) out vec4 color;\n"
+            "\n"
+            "void main()\n"
+            "{\n"
+            "   color = vec4(1.0, 0.0, 0.0, 1.0);\n"
+            "}\n";
+    /* Color = RED [ Normalized (r, g, b, alpha) ] */
+    
+    
+    /* ************************************** */
+    /*  Compile and link shaders source code  */
+    /* ************************************** */
+    GLuint program = createShader(vsSource, fsSource);
+    
+    /* Install / Run program in GPU */
+    glUseProgram(program);
+    
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
-        /* Render here */
+        /* Clear screen */
         glClear(GL_COLOR_BUFFER_BIT);
         
         glDrawArrays(GL_TRIANGLES   /* type of primitive to render */,
                      0              /* starting index of enabled array (bounded buffer) */,
                      3              /* nr of indices on the array (nr of vertexes) */);
         
-        #if 0
-        /* Legacy OpenGL */
-        /* --------------------------------------------- */
-        /* Triangle */
-        glBegin(GL_TRIANGLES);
-        glVertex2f(-0.5f, -0.5f);   // vertex 0
-        glVertex2f(-0.0f,  0.5f);   // vertex 1
-        glVertex2f( 0.5f, -0.5f);   // vertex 2
-        glEnd();
-        /* --------------------------------------------- */
-         #endif
+        
         
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
