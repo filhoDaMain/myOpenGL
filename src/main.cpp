@@ -2,6 +2,79 @@
 #include <GLFW/glfw3.h>
 
 #include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
+
+#define SHADER_FILE_PATH "./res/shaders/Basic.shader"    /* relative to project base dir */
+
+struct ShaderSourceCode
+{
+    std::string vertexSource;
+    std::string fragmentSource;
+};
+
+static ShaderSourceCode parseShader(const std::string& filepath)
+{
+    enum class ShaderType
+    {
+        NONE        = -1,
+        VERTEX      = 0,
+        FRAGMENT    = 1
+    };
+    
+    /* Shader type being currently read from file */
+    ShaderType type = ShaderType::NONE;
+    
+    /* Open shader file */
+    std::ifstream stream(filepath);
+    std::string line;
+    
+    /**
+     * Create two string streams, one per shader type.
+     * 
+     * ss[0]: VERTEX shader source code.
+     * ss[1]: FRAGMENT shader source code
+     */
+    std::stringstream ss[2];
+    
+    /* Read all lines ( as long as getlline() > 0 )*/
+    while(getline(stream, line))
+    {
+        /* Shader type delimiter */
+        if (line.find("#shader") != std::string::npos)
+        {   
+            /**
+             * Next token denotes if source code is for
+             * a vertex or for a fragment shader
+             */
+            
+            /* Vertex Shader */
+            if (line.find("vertex") != std::string::npos)
+            {
+                type = ShaderType::VERTEX;
+            }
+            else if (line.find("fragment") != std::string::npos)
+            {
+                type = ShaderType::FRAGMENT;
+            }   
+        }
+        
+        /* Shader source code */
+        else
+        {
+            /* Directly mapping the shader type into ss[] index */
+            ss[(int) type] << line << '\n';
+        }
+    }
+    
+    /**
+     * Return both ss[] strings encapsulated in
+     * a single ShaderSourceCode struct.
+     */
+    return { ss[0].str() /* vertex source */, 
+             ss[1].str() /* fragment source */ };
+}
 
 static GLuint compileShader(unsigned int type, const std::string& source)
 {
@@ -34,7 +107,7 @@ static GLuint compileShader(unsigned int type, const std::string& source)
         
         /* Get the error message */
         char* emessage = (char *) alloca(length * sizeof(char));  /* stack allocation (auto freed) */
-        /* NOTE: char emmase[length] assumes an infinite available stack -> g++ complains! */
+        /* NOTE: char emessage[length] assumes an infinite available stack -> g++ complains! */
         
         /* Get error message from shader log */
         glGetShaderInfoLog(id, length, &length, emessage /* log */);
@@ -43,7 +116,7 @@ static GLuint compileShader(unsigned int type, const std::string& source)
                 ( type == GL_VERTEX_SHADER ? "VERTEX" : "FRAGMENT" ) << " shader!"
                 << std::endl;
         
-        /* Print message */
+        /* Print error message */
         std::cout << emessage << std::endl;
         
         /* Delete shader object */
@@ -97,16 +170,15 @@ int main(void)
       * NOTE:
       * MacOS uses Legacy Profile as default for all created OpenGL context.
       * 
-      * Set OpenGL version to 3.2 by issuing glfwWindowHint() calls
+      * Set OpenGL version to 3.2 with glfwWindowHint()
       * before glfwCreateWindow()
       *  
       */
-     
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
      
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+    window = glfwCreateWindow(640, 480, "myOpenGL", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
@@ -186,53 +258,27 @@ int main(void)
     glEnableVertexAttribArray(0 /* index of the generic vertex attribute to be enabled */);
     
     
-    /* ************************************ */
-    /*  Create / write shaders source code  */
-    /* ************************************ */
+    /* ************************************* */
+    /*  Read shaders source code from file   */
+    /* ************************************* */
+    ShaderSourceCode shaderSource = parseShader(SHADER_FILE_PATH);
     
-    /**
-     * Vertex Shader source code - vertices position
-     */
-    /* ------------------------------------------------------------------- */
-    std::string vsSource = 
-            "#version 330 core\n"
-            "\n"
-            "layout(location = 0) in vec4 position;\n"
-            "\n"
-            "void main()\n"
-            "{\n"
-            "   gl_Position = position;\n"
-            "}\n";
-    /**
-     *  layout(location = 0) in vec4 position 
-     * creates a Vector4 position variable and assigns it ('in')
-     * to the attribute index 0 (the attr index for positions)
-     */
-    
-    
-    /**
-     * Fragment Shader source code - vertices colors
-     */
-    /* ------------------------------------------------------------------- */
-    std::string fsSource = 
-            "#version 330 core\n"
-            "\n"
-            "layout(location = 0) out vec4 color;\n"
-            "\n"
-            "void main()\n"
-            "{\n"
-            "   color = vec4(1.0, 0.0, 0.0, 1.0);\n"
-            "}\n";
-    /* Color = RED [ Normalized (r, g, b, alpha) ] */
-    
+    //DEBUG
+    //std::cout << shaderSource.vertexSource << std::endl;
+    //std::cout << shaderSource.fragmentSource << std::endl;
+ 
     
     /* ************************************** */
     /*  Compile and link shaders source code  */
     /* ************************************** */
-    GLuint program = createShader(vsSource, fsSource);
+    GLuint program = createShader(shaderSource.vertexSource,
+                                  shaderSource.fragmentSource);
     
-    /* Install / Run program in GPU */
+    /* ************************************** */
+    /*      Install / Run program in GPU      */
+    /* ************************************** */
     glUseProgram(program);
+    
     
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
@@ -253,6 +299,7 @@ int main(void)
         glfwPollEvents();
     }
 
+    glDeleteProgram(program);
     glfwTerminate();
     return 0;
 }
