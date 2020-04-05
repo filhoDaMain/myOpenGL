@@ -217,15 +217,13 @@ int main(void)
 #endif
     
     
-#if 1   /* SQUARE */
-   
+    /* Vertex positions without duplicates */
     float positions[12] = {
         /* 0 */ -0.5f, -0.5f,
         /* 1 */  0.5f, -0.5f,
         /* 2 */  0.5f,  0.5f,
         /* 3 */ -0.5f,  0.5f
     };
-#endif
     
     /* Using position indices to specify each triangle vertex position */
     unsigned char indices[] = {
