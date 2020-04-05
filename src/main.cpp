@@ -8,6 +8,20 @@
 
 #define SHADER_FILE_PATH "./res/shaders/Basic.shader"    /* relative to project base dir */
 
+static void _glClearError(void)
+{
+    /* Loop through all errors will clear them  */
+    while (glGetError() != GL_NO_ERROR);
+}
+
+static void _glCheckError(void)
+{
+    while ( GLenum error = glGetError() )
+    {
+        std::cout << "OpenGL error:  error code (decimal) = " << error << std::endl;
+    }
+}
+
 struct ShaderSourceCode
 {
     std::string vertexSource;
@@ -272,8 +286,10 @@ int main(void)
     {
         /* Clear screen */
         glClear(GL_COLOR_BUFFER_BIT);
-               
+        
+        _glClearError();
         glDrawElements(GL_TRIANGLES, 6 /* indices */, GL_UNSIGNED_BYTE, nullptr);
+        _glCheckError();
         
         glDrawArrays(GL_TRIANGLES   /* type of primitive to render */,
                      0              /* starting index of enabled array (bounded buffer) */,
