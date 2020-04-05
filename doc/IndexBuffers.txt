@@ -1,0 +1,50 @@
+Using index buffers to save some buffer memory usage
+
+1. Vertex positions without duplicates:
+
+    float positions[N] = {  /* index 0 */   _x1, _y1, 
+                            /* index 1 */   _x2, _y2, 
+                            (...) };
+
+
+2. Buffer of positions indices to specify all vertex positions:
+
+    /* Each element corresponds to an index of positions[] where the (x, y) is defined */
+
+    unsigned char indices[M] = { /* 1st triangle */ 0, 1, 2,
+                                 /* 2nd triangle */ 2, 3, 0 };
+
+
+3. Bind to buffer positions:
+
+    GLuint buffer;
+    glGenBuffers(1, &buffer);
+    glBindBuffer(GL_ARRAY_BUFFER, buffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0                 /* index of vertex attr to be modified (position) */,
+                          2                 /* nr of components per this vertex attribute (x_pos, y_pos) */,
+                          GL_FLOAT          /* data type of each vertex component */,
+                          GL_FALSE          /* don't normalize (values are alreay [-1.0f, 1.0f] */,
+                          2*sizeof(float)   /* byte offset between consecutive generic vertex attributes */,
+                          0                 /* offset of 1st vertex component */
+                          );
+
+    glEnableVertexAttribArray(0);
+
+
+4. Bind to buffer indices:
+
+    GLuint ibo;     /* Index Buffer Object */
+    glGenBuffers(1, &ibo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER /* index buffer type */, ibo);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER /* index buffer type */, sizeof(indices), indices, GL_STATIC_DRAW);
+
+
+5. Draw call:
+
+    glDrawElements(GL_TRIANGLES, 6 /* nr of indices */, GL_UNSIGNED_BYTE /* indices[] type */, nullptr);
+        
+    glDrawArrays(GL_TRIANGLES   /* type of primitive to render */,
+                 0              /* starting index of enabled array (bounded buffer) */,
+                 6              /* nr of indices on the array (nr of vertexes) */);

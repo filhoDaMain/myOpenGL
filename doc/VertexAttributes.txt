@@ -1,0 +1,20 @@
+/**
+ * Vertex Attributes
+ * 
+ *  Attr    Attribute               Attribute
+ *  Index   Name                    Description
+ *  ---------------------------------------------------------------------------
+ *   0      gl_Vertex               Position (vec4)
+ *   1      gl_Normal               Normal (vec4)
+ *   2      gl_Color                Primary color of vertex (vec4)
+ *   3      gl_MultiTexCoord0       Texture coordinate of texture unit 0 (vec4)
+ *   4      gl_MultiTexCoord1       Texture coordinate of texture unit 1 (vec4)
+ *   5      gl_MultiTexCoord2       Texture coordinate of texture unit 2 (vec4)
+ *   6      gl_MultiTexCoord3       Texture coordinate of texture unit 3 (vec4)
+ *   7      gl_MultiTexCoord4       Texture coordinate of texture unit 4 (vec4)
+ *   8      gl_MultiTexCoord5       Texture coordinate of texture unit 5 (vec4)
+ *   9      gl_MultiTexCoord6       Texture coordinate of texture unit 6 (vec4)
+ *  10      gl_MultiTexCoord7       Texture coordinate of texture unit 7 (vec4)
+ *  11      gl_FogCoord             Fog Coord (float)
+ * 
+ */

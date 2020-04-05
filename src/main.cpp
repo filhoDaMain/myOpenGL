@@ -218,7 +218,7 @@ int main(void)
     
     
     /* Vertex positions without duplicates */
-    float positions[12] = {
+    float positions[8] = {
         /* 0 */ -0.5f, -0.5f,
         /* 1 */  0.5f, -0.5f,
         /* 2 */  0.5f,  0.5f,
@@ -226,7 +226,7 @@ int main(void)
     };
     
     /* Using position indices to specify each triangle vertex position */
-    unsigned char indices[] = {
+    unsigned char indices[6] = {
         /* 1st triangle */
         0, 1, 2,
         
@@ -263,12 +263,12 @@ int main(void)
     
     /* Change position component -> use index 0 */
     
-    glVertexAttribPointer(0             /* index of vertex attr to be modified (position) */,
-                          2             /* nr of components per this vertex attribute (x_pos, y_pos) */,
-                          GL_FLOAT      /* data type of each vertex component */,
-                          GL_FALSE      /* don't normalize (values are alreay [-1.0f, 1.0f] */,
+    glVertexAttribPointer(0                 /* index of vertex attr to be modified (position) */,
+                          2                 /* nr of components per this vertex attribute (x_pos, y_pos) */,
+                          GL_FLOAT          /* data type of each vertex component */,
+                          GL_FALSE          /* don't normalize (values are alreay [-1.0f, 1.0f] */,
                           2*sizeof(float)   /* byte offset between consecutive generic vertex attributes */,
-                          0             /* offset of 1st vertex component */
+                          0                 /* offset of 1st vertex component */
                           );
     
     /* Enable Position Vertex Attribute */
