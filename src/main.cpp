@@ -14,7 +14,7 @@
 
 #define GL_DEBUG(x) _glClearError();\
     x;\
-    ASSERT(_glLogCall())
+    ASSERT(_glLogCall(#x /* func name as string */, __FILE__, __LINE__))
 
 static void _glClearError(void)
 {
@@ -22,11 +22,13 @@ static void _glClearError(void)
     while (glGetError() != GL_NO_ERROR);
 }
 
-static bool _glLogCall(void)
+static bool _glLogCall(const char* function, const char* srcfile, int line)
 {
     while ( GLenum error = glGetError() )
     {
-        std::cout << "OpenGL error:  error code (decimal) = " << error << std::endl;
+        std::cout << "OpenGL error code = " << error << " (decimal)" << std::endl;
+        std::cout << "  File: " << srcfile << std::endl;
+        std::cout << "  Line: " << line << std::endl;
         return false;
     }
     
