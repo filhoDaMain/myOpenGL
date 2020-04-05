@@ -217,6 +217,8 @@ int main(void)
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
     
+    glfwSwapInterval(1);
+    
     /* Glew Init */
     GLenum err = glewInit();
     if (GLEW_OK != err)
@@ -302,9 +304,11 @@ int main(void)
     /* ************************************** */
     //NOTE: Uniforms must be defined after shaders are bound and uniform
     //      names must be the same on GPU shader and on CPU program
-    GL_DEBUG( GLint location = glGetUniformLocation(program, "u_Color") );      /* location = u_Color id */
+    GL_DEBUG( GLint location = glGetUniformLocation(program, "u_Color") ); /* location = u_Color id */
     ASSERT(location != -1);
-    GL_DEBUG( glUniform4f(location, 1.0f, 1.0f, 0.0f, 1.0f /* rgba color */) ); /* define u_Color as a vec4 */
+    
+    float red_ch = 0.0f;        /* red channel starting value */
+    float increment = 0.05f;
     
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
@@ -312,8 +316,23 @@ int main(void)
         /* Clear screen */
         GL_DEBUG( glClear(GL_COLOR_BUFFER_BIT) );
         
-        /* Render primitives */
+        /* Update u_Color uniform (as a vec4) */
+        GL_DEBUG( glUniform4f(location, red_ch, 1.0f, 0.0f, 1.0f) );
+        
+        /* Render */
         GL_DEBUG( glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, nullptr) );
+        
+        /* Update red channel each frame to animate color change */
+        if (red_ch >= 1.0f)
+        {
+            increment = -0.05f;
+        }
+        else if (red_ch < 0)
+        {
+            increment =  0.05f;
+        }
+        
+        red_ch += increment;
             
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
