@@ -270,7 +270,7 @@ int main(void)
     /* Enable Position Vertex Attribute */
     GL_DEBUG( glEnableVertexAttribArray(0 /* index of the generic vertex attribute to be enabled */) );
     
-   
+    
     /* Bind to buffer indices (6 indices) */
     GLuint ibo;     /* Index Buffer Object */
     GL_DEBUG( glGenBuffers(1, &ibo) );
@@ -280,8 +280,6 @@ int main(void)
                            indices, 
                            GL_STATIC_DRAW)
             );
-    
-    
     
     /* ************************************* */
     /*  Read shaders source code from file   */
@@ -299,6 +297,14 @@ int main(void)
     /* ************************************** */
     GL_DEBUG( glUseProgram(program) );
     
+    /* ************************************** */
+    /*   Define Uniforms                      */
+    /* ************************************** */
+    //NOTE: Uniforms must be defined after shaders are bound and uniform
+    //      names must be the same on GPU shader and on CPU program
+    GLint location = glGetUniformLocation(program, "u_Color");      /* location = u_Color id */
+    ASSERT(location != -1);
+    glUniform4f(location, 1.0f, 1.0f, 0.0f, 1.0f /* rgba color */); /* define u_Color as a vec4 */
     
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
