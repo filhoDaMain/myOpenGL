@@ -1,0 +1,18 @@
+"Common variable between CPU program and GPU shader so we can pass data between them"
+
+1. On the .shader :
+
+uniform vec4 u_Color;
+
+
+2. On the CPU program:
+
+    2.1 Get an ID for the uniform we wany to bind
+
+    location = glGetUniformLocation(program, "u_Color") );
+
+
+    2.2 Use the retrieved ID to access/update the uniform values
+
+    /* In this example we are using a vec4 uniform */
+    glUniform4f(location, 1.0f, 1.0f, 0.0f, 1.0f)
