@@ -218,32 +218,29 @@ int main(void)
     
     
 #if 1   /* SQUARE */
-    
-    /* 1st triangle */
+   
     float positions[12] = {
-        /* 1st triangle */
-        -0.5f, -0.5f,
-         0.5f, -0.5f,
-         0.5f,  0.5f,
-        
-        /* 2nd triangle */
-         0.5f,  0.5f,
-        -0.5f,  0.5f,
-        -0.5f, -0.5f
+        /* 0 */ -0.5f, -0.5f,
+        /* 1 */  0.5f, -0.5f,
+        /* 2 */  0.5f,  0.5f,
+        /* 3 */ -0.5f,  0.5f
     };
 #endif
     
-    /* Reserve  OpenGL Buffers */
-    GLuint buffer;      /* buffer ID */
-    glGenBuffers(1 /* how many buffers */, &buffer /* output ID */);
+    /* Using position indices to specify each triangle vertex position */
+    unsigned char indices[] = {
+        /* 1st triangle */
+        0, 1, 2,
+        
+        /* 2nd triangle */
+        2, 3, 0
+    };
     
-    /* Bind (select) a buffer to write */
+    /* Bind to buffer positions (4 vertices) */
+    GLuint buffer;
+    glGenBuffers(1, &buffer);
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
-    
-    glBufferData(GL_ARRAY_BUFFER,
-                 sizeof(positions)  /* size (Bytes) of new data */,
-                 positions          /* pointer to data being written into buffer */,
-                 GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
     
     /**
      * Vertex Attributes
@@ -278,6 +275,14 @@ int main(void)
     
     /* Enable Position Vertex Attribute */
     glEnableVertexAttribArray(0 /* index of the generic vertex attribute to be enabled */);
+    
+    
+    
+    /* Bind to buffer indices (6 indices) */
+    GLuint ibo;     /* Index Buffer Object */
+    glGenBuffers(1, &ibo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER /* index buffer type */, ibo);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER /* index buffer type */, sizeof(indices), indices, GL_STATIC_DRAW);
     
     
     /* ************************************* */
@@ -317,6 +322,8 @@ int main(void)
         
         
 #if 1   /* SQUARE */
+        
+        glDrawElements(GL_TRIANGLES, 6 /* indices */, GL_UNSIGNED_BYTE, nullptr);
         
         glDrawArrays(GL_TRIANGLES   /* type of primitive to render */,
                      0              /* starting index of enabled array (bounded buffer) */,
