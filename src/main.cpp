@@ -12,6 +12,10 @@
 /* raise(SIGTRAP) will cause the program execution to break (POSIX) */
 #define ASSERT(x) if(!(x)) raise(SIGTRAP);  
 
+#define GL_DEBUG(x) _glClearError();\
+    x;\
+    ASSERT(_glLogCall())
+
 static void _glClearError(void)
 {
     /* Loop through all errors will clear them  */
@@ -294,9 +298,7 @@ int main(void)
         /* Clear screen */
         glClear(GL_COLOR_BUFFER_BIT);
         
-        _glClearError();
-        glDrawElements(GL_TRIANGLES, 6 /* indices */, GL_UNSIGNED_BYTE, nullptr);
-        ASSERT( _glLogCall() );
+        GL_DEBUG( glDrawElements(GL_TRIANGLES, 6 /* indices */, GL_UNSIGNED_BYTE, nullptr) );
         
         glDrawArrays(GL_TRIANGLES   /* type of primitive to render */,
                      0              /* starting index of enabled array (bounded buffer) */,
