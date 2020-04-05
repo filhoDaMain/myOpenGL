@@ -227,8 +227,8 @@ int main(void)
     
     /* VAO - Vertex Array Object */
     GLuint vaoID;
-    glGenVertexArrays(1, &vaoID);
-    glBindVertexArray(vaoID);
+    GL_DEBUG( glGenVertexArrays(1, &vaoID) );
+    GL_DEBUG( glBindVertexArray(vaoID) );
     
     /* Print OpenGL version */
     std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
@@ -252,28 +252,34 @@ int main(void)
     
     /* Bind to buffer positions (4 vertices) */
     GLuint buffer;
-    glGenBuffers(1, &buffer);
-    glBindBuffer(GL_ARRAY_BUFFER, buffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
+    GL_DEBUG( glGenBuffers(1, &buffer) );
+    GL_DEBUG( glBindBuffer(GL_ARRAY_BUFFER, buffer) );
+    GL_DEBUG( glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW) );
      
     /* Change position component -> use index 0 */
-    glVertexAttribPointer(0                 /* index of vertex attr to be modified (position) */,
-                          2                 /* nr of components per this vertex attribute (x_pos, y_pos) */,
-                          GL_FLOAT          /* data type of each vertex component */,
-                          GL_FALSE          /* don't normalize (values are alreay [-1.0f, 1.0f] */,
-                          2*sizeof(float)   /* byte offset between consecutive generic vertex attributes */,
-                          0                 /* offset of 1st vertex component */
-                          );
+    GL_DEBUG( glVertexAttribPointer(
+                        0                 /* index of vertex attr to be modified (position) */,
+                        2                 /* nr of components per this vertex attribute (x_pos, y_pos) */,
+                        GL_FLOAT          /* data type of each vertex component */,
+                        GL_FALSE          /* don't normalize (values are alreay [-1.0f, 1.0f] */,
+                        2*sizeof(float)   /* byte offset between consecutive generic vertex attributes */,
+                        0                 /* offset of 1st vertex component */
+                        )
+            );
     
     /* Enable Position Vertex Attribute */
-    glEnableVertexAttribArray(0 /* index of the generic vertex attribute to be enabled */);
+    GL_DEBUG( glEnableVertexAttribArray(0 /* index of the generic vertex attribute to be enabled */) );
     
    
     /* Bind to buffer indices (6 indices) */
     GLuint ibo;     /* Index Buffer Object */
-    glGenBuffers(1, &ibo);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER /* index buffer type */, ibo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER /* index buffer type */, sizeof(indices), indices, GL_STATIC_DRAW);
+    GL_DEBUG( glGenBuffers(1, &ibo) );
+    GL_DEBUG( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER /* index buffer type */, ibo) );
+    GL_DEBUG( glBufferData(GL_ELEMENT_ARRAY_BUFFER /* index buffer type */, 
+                           sizeof(indices), 
+                           indices, 
+                           GL_STATIC_DRAW)
+            );
     
     
     
@@ -291,20 +297,21 @@ int main(void)
     /* ************************************** */
     /*      Install / Run program in GPU      */
     /* ************************************** */
-    glUseProgram(program);
+    GL_DEBUG( glUseProgram(program) );
     
     
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
         /* Clear screen */
-        glClear(GL_COLOR_BUFFER_BIT);
+        GL_DEBUG( glClear(GL_COLOR_BUFFER_BIT) );
         
         GL_DEBUG( glDrawElements(GL_TRIANGLES, 6 /* indices */, GL_UNSIGNED_BYTE, nullptr) );
         
-        glDrawArrays(GL_TRIANGLES   /* type of primitive to render */,
-                     0              /* starting index of enabled array (bounded buffer) */,
-                     6              /* nr of indices on the array (nr of vertexes) */);
+        GL_DEBUG( glDrawArrays(GL_TRIANGLES   /* type of primitive to render */,
+                               0              /* starting index of enabled array (bounded buffer) */,
+                               6              /* nr of indices on the array (nr of vertexes) */)
+                );
             
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
@@ -313,7 +320,7 @@ int main(void)
         glfwPollEvents();
     }
 
-    glDeleteProgram(program);
+    GL_DEBUG( glDeleteProgram(program) );
     glfwTerminate();
     return 0;
 }
