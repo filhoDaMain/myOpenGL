@@ -54,6 +54,8 @@ static ShaderSourceCode parseShader(const std::string& filepath)
             {
                 type = ShaderType::VERTEX;
             }
+            
+            /* Fragment Shader */
             else if (line.find("fragment") != std::string::npos)
             {
                 type = ShaderType::FRAGMENT;
@@ -203,13 +205,33 @@ int main(void)
     
     /* Print OpenGL version */
     std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
-        
+    
+#if 0   /* TRIANGLE */
+    
     /* Define my vertices */
     float positions[6] = {
         -0.5f, -0.5f,
          0.0f,  0.5f,
          0.5f, -0.5f
     };
+#endif
+    
+    
+#if 1   /* SQUARE */
+    
+    /* 1st triangle */
+    float positions[12] = {
+        /* 1st triangle */
+        -0.5f, -0.5f,
+         0.5f, -0.5f,
+         0.5f,  0.5f,
+        
+        /* 2nd triangle */
+         0.5f,  0.5f,
+        -0.5f,  0.5f,
+        -0.5f, -0.5f
+    };
+#endif
     
     /* Reserve  OpenGL Buffers */
     GLuint buffer;      /* buffer ID */
@@ -286,9 +308,20 @@ int main(void)
         /* Clear screen */
         glClear(GL_COLOR_BUFFER_BIT);
         
+#if 0   /* TRIANGLE */
+        
         glDrawArrays(GL_TRIANGLES   /* type of primitive to render */,
                      0              /* starting index of enabled array (bounded buffer) */,
                      3              /* nr of indices on the array (nr of vertexes) */);
+#endif
+        
+        
+#if 1   /* SQUARE */
+        
+        glDrawArrays(GL_TRIANGLES   /* type of primitive to render */,
+                     0              /* starting index of enabled array (bounded buffer) */,
+                     6              /* nr of indices on the array (nr of vertexes) */);
+#endif
         
         
         
