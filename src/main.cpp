@@ -5,8 +5,12 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <signal.h> /* raise(SIGTRAP) */
 
 #define SHADER_FILE_PATH "./res/shaders/Basic.shader"    /* relative to project base dir */
+
+/* raise(SIGTRAP) will cause the program execution to break (POSIX) */
+#define ASSERT(x) if(!(x)) raise(SIGTRAP);  
 
 static void _glClearError(void)
 {
@@ -14,12 +18,15 @@ static void _glClearError(void)
     while (glGetError() != GL_NO_ERROR);
 }
 
-static void _glCheckError(void)
+static bool _glLogCall(void)
 {
     while ( GLenum error = glGetError() )
     {
         std::cout << "OpenGL error:  error code (decimal) = " << error << std::endl;
+        return false;
     }
+    
+    return true;
 }
 
 struct ShaderSourceCode
@@ -289,7 +296,7 @@ int main(void)
         
         _glClearError();
         glDrawElements(GL_TRIANGLES, 6 /* indices */, GL_UNSIGNED_BYTE, nullptr);
-        _glCheckError();
+        ASSERT( _glLogCall() );
         
         glDrawArrays(GL_TRIANGLES   /* type of primitive to render */,
                      0              /* starting index of enabled array (bounded buffer) */,
