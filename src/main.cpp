@@ -306,12 +306,8 @@ int main(void)
         /* Clear screen */
         GL_DEBUG( glClear(GL_COLOR_BUFFER_BIT) );
         
-        GL_DEBUG( glDrawElements(GL_TRIANGLES, 6 /* indices */, GL_UNSIGNED_BYTE, nullptr) );
-        
-        GL_DEBUG( glDrawArrays(GL_TRIANGLES   /* type of primitive to render */,
-                               0              /* starting index of enabled array (bounded buffer) */,
-                               6              /* nr of indices on the array (nr of vertexes) */)
-                );
+        /* Render primitives */
+        GL_DEBUG( glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, nullptr) );
             
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
