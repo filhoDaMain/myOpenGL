@@ -206,17 +206,6 @@ int main(void)
     /* Print OpenGL version */
     std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
     
-#if 0   /* TRIANGLE */
-    
-    /* Define my vertices */
-    float positions[6] = {
-        -0.5f, -0.5f,
-         0.0f,  0.5f,
-         0.5f, -0.5f
-    };
-#endif
-    
-    
     /* Vertex positions without duplicates */
     float positions[8] = {
         /* 0 */ -0.5f, -0.5f,
@@ -239,30 +228,8 @@ int main(void)
     glGenBuffers(1, &buffer);
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
-    
-    /**
-     * Vertex Attributes
-     * 
-     *  Attr    Attribute               Attribute
-     *  Index   Name                    Description
-     *  ---------------------------------------------------------------------------
-     *   0      gl_Vertex               Position (vec4)
-     *   1      gl_Normal               Normal (vec4)
-     *   2      gl_Color                Primary color of vertex (vec4)
-     *   3      gl_MultiTexCoord0       Texture coordinate of texture unit 0 (vec4)
-     *   4      gl_MultiTexCoord1       Texture coordinate of texture unit 1 (vec4)
-     *   5      gl_MultiTexCoord2       Texture coordinate of texture unit 2 (vec4)
-     *   6      gl_MultiTexCoord3       Texture coordinate of texture unit 3 (vec4)
-     *   7      gl_MultiTexCoord4       Texture coordinate of texture unit 4 (vec4)
-     *   8      gl_MultiTexCoord5       Texture coordinate of texture unit 5 (vec4)
-     *   9      gl_MultiTexCoord6       Texture coordinate of texture unit 6 (vec4)
-     *  10      gl_MultiTexCoord7       Texture coordinate of texture unit 7 (vec4)
-     *  11      gl_FogCoord             Fog Coord (float)
-     * 
-     */
-    
+     
     /* Change position component -> use index 0 */
-    
     glVertexAttribPointer(0                 /* index of vertex attr to be modified (position) */,
                           2                 /* nr of components per this vertex attribute (x_pos, y_pos) */,
                           GL_FLOAT          /* data type of each vertex component */,
@@ -274,8 +241,7 @@ int main(void)
     /* Enable Position Vertex Attribute */
     glEnableVertexAttribArray(0 /* index of the generic vertex attribute to be enabled */);
     
-    
-    
+   
     /* Bind to buffer indices (6 indices) */
     GLuint ibo;     /* Index Buffer Object */
     glGenBuffers(1, &ibo);
@@ -283,15 +249,11 @@ int main(void)
     glBufferData(GL_ELEMENT_ARRAY_BUFFER /* index buffer type */, sizeof(indices), indices, GL_STATIC_DRAW);
     
     
+    
     /* ************************************* */
     /*  Read shaders source code from file   */
     /* ************************************* */
     ShaderSourceCode shaderSource = parseShader(SHADER_FILE_PATH);
-    
-    //DEBUG
-    //std::cout << shaderSource.vertexSource << std::endl;
-    //std::cout << shaderSource.fragmentSource << std::endl;
- 
     
     /* ************************************** */
     /*  Compile and link shaders source code  */
@@ -310,26 +272,13 @@ int main(void)
     {
         /* Clear screen */
         glClear(GL_COLOR_BUFFER_BIT);
-        
-#if 0   /* TRIANGLE */
-        
-        glDrawArrays(GL_TRIANGLES   /* type of primitive to render */,
-                     0              /* starting index of enabled array (bounded buffer) */,
-                     3              /* nr of indices on the array (nr of vertexes) */);
-#endif
-        
-        
-#if 1   /* SQUARE */
-        
+               
         glDrawElements(GL_TRIANGLES, 6 /* indices */, GL_UNSIGNED_BYTE, nullptr);
         
         glDrawArrays(GL_TRIANGLES   /* type of primitive to render */,
                      0              /* starting index of enabled array (bounded buffer) */,
                      6              /* nr of indices on the array (nr of vertexes) */);
-#endif
-        
-        
-        
+            
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
 
