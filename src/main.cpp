@@ -228,9 +228,9 @@ int main(void)
     }
     
     /* VAO - Vertex Array Object */
-    GLuint vaoID;
-    GL_DEBUG( glGenVertexArrays(1, &vaoID) );
-    GL_DEBUG( glBindVertexArray(vaoID) );
+    GLuint vao;
+    GL_DEBUG( glGenVertexArrays(1, &vao) );
+    GL_DEBUG( glBindVertexArray(vao) );
     
     /* Print OpenGL version */
     std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
@@ -258,7 +258,9 @@ int main(void)
     /* ************************************* */
     GLuint buffer;
     GL_DEBUG( glGenBuffers(1, &buffer) );
-    GL_DEBUG( glBindBuffer(GL_ARRAY_BUFFER, buffer) );
+    GL_DEBUG( glBindBuffer(GL_ARRAY_BUFFER /* vertex buffer */, buffer) );
+    
+    /* Write positions[] in buffer */
     GL_DEBUG( glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW) );
      
     
@@ -289,13 +291,10 @@ int main(void)
     /* ************************************************************** */
     GLuint ibo; /* Index Buffer Object */
     GL_DEBUG( glGenBuffers(1, &ibo) );
-    GL_DEBUG( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER /* index buffer type */, ibo) );
+    GL_DEBUG( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER /* index buffer */, ibo) );
     
-    GL_DEBUG( glBufferData(GL_ELEMENT_ARRAY_BUFFER /* index buffer type */, 
-                           sizeof(indices), 
-                           indices, 
-                           GL_STATIC_DRAW)
-            );
+    /* Write indices[] in ibo */
+    GL_DEBUG( glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW));
     
     /* ************************************* */
     /*  Read shaders source code from file   */
@@ -305,30 +304,56 @@ int main(void)
     /* ************************************** */
     /*  Compile and link shaders source code  */
     /* ************************************** */
-    GLuint program = createShader(shaderSource.vertexSource,
+    GLuint shader = createShader(shaderSource.vertexSource,
                                   shaderSource.fragmentSource);
     
     /* ************************************** */
-    /*      Install / Run program in GPU      */
+    /*  Bind Shader / Run shader prog on GPU  */
     /* ************************************** */
-    GL_DEBUG( glUseProgram(program) );
+    GL_DEBUG( glUseProgram(shader) );
     
     /* ************************************** */
     /*   Define Uniforms                      */
     /* ************************************** */
     //NOTE: Uniforms must be defined after shaders are bound and uniform
     //      names must be the same on GPU shader and on CPU program
-    GL_DEBUG( GLint location = glGetUniformLocation(program, "u_Color") ); /* location = u_Color id */
+    GL_DEBUG( GLint location = glGetUniformLocation(shader, "u_Color") ); /* location = u_Color id */
     ASSERT(location != -1);
     
     float red_ch = 0.0f;        /* red channel starting value */
     float increment = 0.05f;
+    
+    
+    /**
+     * For Debug purposes,
+     * unbind everything
+     */
+    GL_DEBUG( glBindBuffer(GL_ARRAY_BUFFER, 0) );           /* unbind vertex buff */
+    GL_DEBUG( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0) );   /* unbind index buff */
+    GL_DEBUG( glUseProgram(0) );                            /* unbind shader */
     
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
         /* Clear screen */
         GL_DEBUG( glClear(GL_COLOR_BUFFER_BIT) );
+        
+        /**
+         * For Debug purposes,
+         * bind everything before draw call 
+         */
+        GL_DEBUG( glBindBuffer(GL_ARRAY_BUFFER, buffer) );              /* bind vertex buff */
+        
+        //NOTE: We should make sure the layout stays what we want it to be:
+        GL_DEBUG(                                                       /* Redefine vertex buff layout */
+            glVertexAttribPointer(  _POSITION_ATTRIB_INDEX, 
+                                    2, GL_FLOAT, GL_FALSE, 
+                                    2*sizeof(float), 
+                                    0)
+                );
+        GL_DEBUG( glEnableVertexAttribArray(_POSITION_ATTRIB_INDEX) );  /* Enable position attrib */
+        GL_DEBUG( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo) );         /* Bind index buff */
+        GL_DEBUG( glUseProgram(shader) );                               /* Bind shader */
         
         /* Update u_Color uniform (as a vec4) */
         GL_DEBUG( glUniform4f(location, red_ch, 1.0f, 0.0f, 1.0f) );
@@ -355,7 +380,7 @@ int main(void)
         glfwPollEvents();
     }
 
-    GL_DEBUG( glDeleteProgram(program) );
+    GL_DEBUG( glDeleteProgram(shader) );
     glfwTerminate();
     return 0;
 }
