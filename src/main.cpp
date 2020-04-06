@@ -350,7 +350,7 @@ int main(void)
                                     2, GL_FLOAT, GL_FALSE, 
                                     2*sizeof(float), 
                                     0)
-                );
+                ); 
         GL_DEBUG( glEnableVertexAttribArray(_POSITION_ATTRIB_INDEX) );  /* Enable position attrib */
         GL_DEBUG( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo) );         /* Bind index buff */
         GL_DEBUG( glUseProgram(shader) );                               /* Bind shader */

@@ -53,3 +53,22 @@ Using index buffers to save some buffer memory usage
     glDrawArrays(GL_TRIANGLES   /* type of primitive to render */,
                  0              /* starting index of enabled array (bounded buffer) */,
                  6              /* nr of indices on the array (nr of vertexes) */);
+
+
+
+Summary:
+
+ 1. Bind Vertex buffer:                 glBindBuffer()      <- GL_ARRAY_BUFFER
+ 2. Write vertexes in Vertex buffer:    glBufferData()      <- GL_ARRAY_BUFFER
+ 3. Specify data layout:                lVertexAttribPointer()
+ 4. Enable the attrib type written:     glEnableVertexAttribArray(index)
+
+ 5. Bind Index buffer:                  glBindBuffer()      <- GL_ELEMENT_ARRAY_BUFFER
+ 6. Write indices in Index buffer:      glBufferData()      <- GL_ELEMENT_ARRAY_BUFFER
+
+ 7. Bind shader:                        glUseProgram()
+
+ 8. Bind Uniforms:                      glGetUniformLocation()
+ 9. Write data in uniforms:             glUniform4f()
+
+10. Draw Call:                          glDrawElements()
