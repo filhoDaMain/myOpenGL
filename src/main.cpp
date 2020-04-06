@@ -252,31 +252,45 @@ int main(void)
         2, 3, 0
     };
     
-    /* Bind to buffer positions (4 vertices) */
+
+    /* ************************************* */
+    /*  Bind to buffer containing raw data   */
+    /* ************************************* */
     GLuint buffer;
     GL_DEBUG( glGenBuffers(1, &buffer) );
     GL_DEBUG( glBindBuffer(GL_ARRAY_BUFFER, buffer) );
     GL_DEBUG( glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW) );
      
-    /* Change position component -> use index 0 */
+    
+    /* ************************************* */
+    /*  Specify the data layout of buffer    */
+    /* ************************************* */
+    
+#define _POSITION_ATTRIB_INDEX    0 /* This is the index of position attribute */
+    
     GL_DEBUG( glVertexAttribPointer(
-                        0                 /* index of vertex attr to be modified (position) */,
-                        2                 /* nr of components per this vertex attribute (x_pos, y_pos) */,
+                        _POSITION_ATTRIB_INDEX,
+                        2                 /* nr of components per vertex (x_pos, y_pos) */,
                         GL_FLOAT          /* data type of each vertex component */,
                         GL_FALSE          /* don't normalize (values are alreay [-1.0f, 1.0f] */,
-                        2*sizeof(float)   /* byte offset between consecutive generic vertex attributes */,
+                        2*sizeof(float)   /* stride: size of one     vertex component */,
                         0                 /* offset of 1st vertex component */
                         )
             );
     
-    /* Enable Position Vertex Attribute */
-    GL_DEBUG( glEnableVertexAttribArray(0 /* index of the generic vertex attribute to be enabled */) );
+    /* ************************************* */
+    /*  Enable the attrib we want to modify  */
+    /* ************************************* */
+    GL_DEBUG( glEnableVertexAttribArray(_POSITION_ATTRIB_INDEX) );
     
     
-    /* Bind to buffer indices (6 indices) */
-    GLuint ibo;     /* Index Buffer Object */
+    /* ************************************************************** */
+    /*  Bind to index buffer (indexes of raw data buffer to be used)  */
+    /* ************************************************************** */
+    GLuint ibo; /* Index Buffer Object */
     GL_DEBUG( glGenBuffers(1, &ibo) );
     GL_DEBUG( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER /* index buffer type */, ibo) );
+    
     GL_DEBUG( glBufferData(GL_ELEMENT_ARRAY_BUFFER /* index buffer type */, 
                            sizeof(indices), 
                            indices, 

@@ -20,8 +20,11 @@ Using index buffers to save some buffer memory usage
     GLuint buffer;
     glGenBuffers(1, &buffer);
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
 
+    /* Specify a data buffer to bind with */ 
+    glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
+    
+    /* Specify the layout of the buffer (how are the vertexes?) *
     glVertexAttribPointer(0                 /* index of vertex attr to be modified (position) */,
                           2                 /* nr of components per this vertex attribute (x_pos, y_pos) */,
                           GL_FLOAT          /* data type of each vertex component */,
