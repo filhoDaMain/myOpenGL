@@ -279,6 +279,11 @@ int main(void)
                         0                 /* offset of 1st vertex component */
                         )
             );
+    //NOTE:
+    /* ************************************************************************ */
+    /*    glVertexAttribPointer() links currently bound vertex-buffer (buffer)  */
+    /*    with currently bound Vertex Array (vao)                               */
+    /* ************************************************************************ */
     
     /* ************************************* */
     /*  Enable the attrib we want to modify  */

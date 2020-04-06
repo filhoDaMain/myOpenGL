@@ -58,12 +58,12 @@ Using index buffers to save some buffer memory usage
 
 Summary:
 
- 1. Bind Vertex buffer:                 glBindBuffer()      <- GL_ARRAY_BUFFER
+ 1. Bind vertex-buffer:                 glBindBuffer()      <- GL_ARRAY_BUFFER
  2. Write vertexes in Vertex buffer:    glBufferData()      <- GL_ARRAY_BUFFER
- 3. Specify data layout:                lVertexAttribPointer()
+ 3. Specify data layout:                glVertexAttribPointer()
  4. Enable the attrib type written:     glEnableVertexAttribArray(index)
 
- 5. Bind Index buffer:                  glBindBuffer()      <- GL_ELEMENT_ARRAY_BUFFER
+ 5. Bind index-buffer:                  glBindBuffer()      <- GL_ELEMENT_ARRAY_BUFFER
  6. Write indices in Index buffer:      glBufferData()      <- GL_ELEMENT_ARRAY_BUFFER
 
  7. Bind shader:                        glUseProgram()

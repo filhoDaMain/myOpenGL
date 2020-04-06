@@ -1,0 +1,34 @@
+*****************************************************************************
+NOTE:
+
+glVertexAttribPointer() links currently bound vertex-buffer (buffer)
+with currently bound Vertex Array (vao)
+
+*****************************************************************************
+
+// INTIT
+
+ 1.	Bind a Vertex-Array:				glBindVertexArray()
+
+ 2. Bind vertex-buffer:                 glBindBuffer()      <- GL_ARRAY_BUFFER
+ 3. Write vertexes in Vertex buffer:    glBufferData()      <- GL_ARRAY_BUFFER
+ 4. Specify data layout:                glVertexAttribPointer() -> Link bounded vertex-buffer with bounded Vertex-Array
+ 5. Enable the attrib type written:     glEnableVertexAttribArray(index)
+
+ 6. Bind index-buffer:                  glBindBuffer()      <- GL_ELEMENT_ARRAY_BUFFER
+ 7. Write indices in Index buffer:      glBufferData()      <- GL_ELEMENT_ARRAY_BUFFER
+
+ 8. Bind shader:                        glUseProgram()
+
+ 9. Bind Uniforms:                      glGetUniformLocation()
+10. Write data in uniforms:             glUniform4f()
+
+11. Draw Call:                          glDrawElements()
+
+
+// REDRAW
+Only Vertex-Array, index-buffer and shader must be re-bound if there's an update to be drawn
+
+12. Bind a Vertex-Array:				glBindVertexArray()
+13. Bind index-buffer:                  glBindBuffer()      <- GL_ELEMENT_ARRAY_BUFFER
+14. Bind shader:                        glUseProgram()
