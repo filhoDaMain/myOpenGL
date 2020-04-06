@@ -328,6 +328,7 @@ int main(void)
      * For Debug purposes,
      * unbind everything
      */
+    GL_DEBUG( glBindVertexArray(0) );                       /* unbind vertex array */
     GL_DEBUG( glBindBuffer(GL_ARRAY_BUFFER, 0) );           /* unbind vertex buff */
     GL_DEBUG( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0) );   /* unbind index buff */
     GL_DEBUG( glUseProgram(0) );                            /* unbind shader */
@@ -342,6 +343,7 @@ int main(void)
          * For Debug purposes,
          * bind everything before draw call 
          */
+#if 0
         GL_DEBUG( glBindBuffer(GL_ARRAY_BUFFER, buffer) );              /* bind vertex buff */
         
         //NOTE: We should make sure the layout stays what we want it to be:
@@ -352,6 +354,9 @@ int main(void)
                                     0)
                 ); 
         GL_DEBUG( glEnableVertexAttribArray(_POSITION_ATTRIB_INDEX) );  /* Enable position attrib */
+#endif
+        
+        GL_DEBUG( glBindVertexArray(vao) );                             /* Bind vertex array */
         GL_DEBUG( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo) );         /* Bind index buff */
         GL_DEBUG( glUseProgram(shader) );                               /* Bind shader */
         
