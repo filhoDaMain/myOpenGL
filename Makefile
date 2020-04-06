@@ -126,3 +126,5 @@ include nbproject/Makefile-impl.mk
 
 # include project make variables
 include nbproject/Makefile-variables.mk
+
+include Makefile-res-autocopy.mk
