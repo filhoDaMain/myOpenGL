@@ -4,6 +4,7 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>include/Renderer.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -12,6 +13,7 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>src/Renderer.cpp</itemPath>
       <itemPath>src/main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -39,6 +41,7 @@
           <standard>8</standard>
           <incDir>
             <pElem>lib/include</pElem>
+            <pElem>include</pElem>
           </incDir>
         </ccTool>
         <linkerTool>
@@ -49,6 +52,10 @@
           <commandLine>-framework CoreFoundation -framework CoreGraphics -framework IOKit -framework AppKit -framework OpenGL</commandLine>
         </linkerTool>
       </compileType>
+      <item path="include/Renderer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Renderer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="src/main.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>
@@ -72,6 +79,10 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="include/Renderer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Renderer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="src/main.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>

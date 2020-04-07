@@ -1,5 +1,6 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include "Renderer.h"
 
 #include <iostream>
 #include <fstream>
@@ -7,33 +8,8 @@
 #include <sstream>
 #include <signal.h> /* raise(SIGTRAP) */
 
+
 #define SHADER_FILE_PATH "./res/shaders/Basic.shader"    /* relative to project base dir */
-
-/* raise(SIGTRAP) will cause the program execution to break (POSIX) */
-#define ASSERT(x) if(!(x)) raise(SIGTRAP);  
-
-#define GL_DEBUG(x) _glClearError();\
-    x;\
-    ASSERT(_glLogCall(#x /* func name as string */, __FILE__, __LINE__))
-
-static void _glClearError(void)
-{
-    /* Loop through all errors will clear them  */
-    while (glGetError() != GL_NO_ERROR);
-}
-
-static bool _glLogCall(const char* function, const char* srcfile, int line)
-{
-    while ( GLenum error = glGetError() )
-    {
-        std::cout << "OpenGL error code = " << error << " (decimal)" << std::endl;
-        std::cout << "  File: " << srcfile << std::endl;
-        std::cout << "  Line: " << line << std::endl;
-        return false;
-    }
-    
-    return true;
-}
 
 struct ShaderSourceCode
 {
