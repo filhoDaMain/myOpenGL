@@ -8,7 +8,7 @@ with currently bound Vertex Array (vao)
 
 // INTIT
 
- 1.	Bind a Vertex-Array:				glBindVertexArray()
+ 1. Bind a Vertex-Array:                glBindVertexArray()
 
  2. Bind vertex-buffer:                 glBindBuffer()      <- GL_ARRAY_BUFFER
  3. Write vertexes in Vertex buffer:    glBufferData()      <- GL_ARRAY_BUFFER
@@ -29,6 +29,6 @@ with currently bound Vertex Array (vao)
 // REDRAW
 Only Vertex-Array, index-buffer and shader must be re-bound if there's an update to be drawn
 
-12. Bind a Vertex-Array:				glBindVertexArray()
+12. Bind a Vertex-Array:                glBindVertexArray()
 13. Bind index-buffer:                  glBindBuffer()      <- GL_ELEMENT_ARRAY_BUFFER
 14. Bind shader:                        glUseProgram()
