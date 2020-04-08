@@ -221,7 +221,7 @@ int main(void)
     };
     
     /* Using position indices to specify each triangle vertex position */
-    unsigned char indices[6] = {
+    unsigned int indices[6] = {
         /* 1st triangle */
         0, 1, 2,
         
@@ -349,7 +349,7 @@ int main(void)
         GL_DEBUG( glUniform4f(location, red_ch, 1.0f, 0.0f, 1.0f) );
         
         /* Render */
-        GL_DEBUG( glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, nullptr) );
+        GL_DEBUG( glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr) );
         
         /* Update red channel each frame to animate color change */
         if (red_ch >= 1.0f)
