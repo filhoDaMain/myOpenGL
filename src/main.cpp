@@ -11,7 +11,8 @@
 #include <signal.h> /* raise(SIGTRAP) */
 
 
-#define SHADER_FILE_PATH "./res/shaders/Basic.shader"    /* relative to project base dir */
+#define SHADER_FILE_PATH "./res/shaders/Basic.shader"   /* Relative to project base dir */
+#define _POSITION_ATTRIB_INDEX    0                     /* Index of position attribute */
 
 struct ShaderSourceCode
 {
@@ -167,20 +168,12 @@ static GLuint createShader(const std::string& vertexShader,
 
 int main(void)
 {
-     GLFWwindow* window;
+    GLFWwindow* window;
 
     /* Initialize the library */
     if (!glfwInit())
         return -1;
     
-     /**
-      * NOTE:
-      * MacOS uses Legacy Profile as default for all created OpenGL context.
-      * 
-      * Set OpenGL version to 3.2 with glfwWindowHint()
-      * before glfwCreateWindow()
-      *  
-      */
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
      
@@ -204,14 +197,13 @@ int main(void)
         /* Problem: glewInit failed, something is seriously wrong. */
         std::cout << "Error: " << glewGetErrorString(err) << std::endl;
     }
-    
-    /* VAO - Vertex Array Object */
-    GLuint vao;
-    GL_DEBUG( glGenVertexArrays(1, &vao) );
-    GL_DEBUG( glBindVertexArray(vao) );
-    
     /* Print OpenGL version */
     std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
+    
+    
+    /* ************************************************************** */
+    /*    My Graphics Data (vertex positions and vertex indices)      */
+    /* ************************************************************** */
     
     /* Vertex positions without duplicates */
     float positions[8] = {
@@ -230,98 +222,78 @@ int main(void)
         2, 3, 0
     };
     
+    
+    /* ************************************************************** */
+    /*    Create and Bind a Vertex Array                              */
+    /* ************************************************************** */
+    GLuint vao;
+    GL_DEBUG( glGenVertexArrays(1, &vao) );
+    GL_DEBUG( glBindVertexArray(vao) );
 
-    /* ************************************* */
-    /*  Bind to buffer containing raw data   */
-    /* ************************************* */
-    VertexBuffer vb(positions, sizeof(positions));
+    /* ************************************************************** */
+    /*    Create / Bind / Write 'positions' into a vertex-buffer      */
+    /* ************************************************************** */
+    VertexBuffer vb(positions, sizeof(positions));  /* vb stays bound */
+      
     
-#if 0
-    GLuint buffer;
-    GL_DEBUG( glGenBuffers(1, &buffer) );
-    GL_DEBUG( glBindBuffer(GL_ARRAY_BUFFER /* vertex buffer */, buffer) );
-    
-    /* Write positions[] in buffer */
-    GL_DEBUG( glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW) );
-#endif    
-    
-    /* ************************************* */
-    /*  Specify the data layout of buffer    */
-    /* ************************************* */
-    
-#define _POSITION_ATTRIB_INDEX    0 /* This is the index of position attribute */
-    
+    /* ************************************************************** */
+    /*  Specify the data layout of currently bound vertex-buffer (vb) */
+    /* ************************************************************** */
+    GL_DEBUG( glEnableVertexAttribArray(_POSITION_ATTRIB_INDEX) );
     GL_DEBUG( glVertexAttribPointer(
                         _POSITION_ATTRIB_INDEX,
-                        2                 /* nr of components per vertex (x_pos, y_pos) */,
-                        GL_FLOAT          /* data type of each vertex component */,
-                        GL_FALSE          /* don't normalize (values are alreay [-1.0f, 1.0f] */,
-                        2*sizeof(float)   /* stride: size of one     vertex component */,
-                        0                 /* offset of 1st vertex component */
+                        2               /* two components (x_pos, y_pos) */,
+                        GL_FLOAT        /* data type */,
+                        GL_FALSE        /* don't normalize */,
+                        2*sizeof(float) /* size of an attribute */,
+                        0               /* offset of 1st vertex component */
                         )
             );
-    //NOTE:
-    /* ************************************************************************ */
-    /*    glVertexAttribPointer() links currently bound vertex-buffer (buffer)  */
-    /*    with currently bound Vertex Array (vao)                               */
-    /* ************************************************************************ */
-    
-    /* ************************************* */
-    /*  Enable the attrib we want to modify  */
-    /* ************************************* */
-    GL_DEBUG( glEnableVertexAttribArray(_POSITION_ATTRIB_INDEX) );
+    /**
+     * NOTE:
+     * glVertexAttribPointer() links currently bound vertex-buffer (vb)
+     * with currently bound Vertex Array (vao) 
+     */
     
     
     /* ************************************************************** */
-    /*  Bind to index buffer (indexes of raw data buffer to be used)  */
+    /*    Create / Bind / Write 'indices' into an index-buffer        */
     /* ************************************************************** */
     IndexBuffer ib(indices, (unsigned int)(sizeof(indices)/sizeof(unsigned int)));
     
-#if 0
-    GLuint ibo; /* Index Buffer Object */
-    GL_DEBUG( glGenBuffers(1, &ibo) );
-    GL_DEBUG( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER /* index buffer */, ibo) );
     
-    /* Write indices[] in ibo */
-    GL_DEBUG( glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW));
-#endif
-    
-    /* ************************************* */
-    /*  Read shaders source code from file   */
-    /* ************************************* */
+    /* ************************************************************** */
+    /*    Read / Compile / Link shaders source code;  Bind shader     */
+    /* ************************************************************** */
     ShaderSourceCode shaderSource = parseShader(SHADER_FILE_PATH);
-    
-    /* ************************************** */
-    /*  Compile and link shaders source code  */
-    /* ************************************** */
     GLuint shader = createShader(shaderSource.vertexSource,
                                   shaderSource.fragmentSource);
-    
-    /* ************************************** */
-    /*  Bind Shader / Run shader prog on GPU  */
-    /* ************************************** */
     GL_DEBUG( glUseProgram(shader) );
     
-    /* ************************************** */
-    /*   Define Uniforms                      */
-    /* ************************************** */
-    //NOTE: Uniforms must be defined after shaders are bound and uniform
-    //      names must be the same on GPU shader and on CPU program
-    GL_DEBUG( GLint location = glGetUniformLocation(shader, "u_Color") ); /* location = u_Color id */
-    ASSERT(location != -1);
     
-    float red_ch = 0.0f;        /* red channel starting value */
-    float increment = 0.05f;
+    /* ************************************************************** */
+    /*    Define Uniforms to interchange color data                   */
+    /* ************************************************************** */
+    /* location = u_Color id */
+    GL_DEBUG( GLint location = glGetUniformLocation(shader, "u_Color") );
+    ASSERT(location != -1);
     
     
     /**
      * For Debug purposes,
      * unbind everything
      */
-    GL_DEBUG( glBindVertexArray(0) );                       /* unbind vertex array */
-    GL_DEBUG( glBindBuffer(GL_ARRAY_BUFFER, 0) );           /* unbind vertex buff */
-    GL_DEBUG( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0) );   /* unbind index buff */
-    GL_DEBUG( glUseProgram(0) );                            /* unbind shader */
+    GL_DEBUG( glBindVertexArray(0) );   /* unbind Vertex Array */
+    vb.Unbind();                        /* unbind vertex-buffer */
+    ib.Unbind();                        /* unbind index-buffer */
+    GL_DEBUG( glUseProgram(0) );        /* unbind shader */
+    
+    
+    
+    /* Animate red channel inside for loop */
+    /* ------------------------------------------------------ */
+    float red_ch = 0.0f;
+    float increment = 0.05f;
     
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
@@ -329,35 +301,19 @@ int main(void)
         /* Clear screen */
         GL_DEBUG( glClear(GL_COLOR_BUFFER_BIT) );
         
-        /**
-         * For Debug purposes,
-         * bind everything before draw call 
-         */
-#if 0
-        GL_DEBUG( glBindBuffer(GL_ARRAY_BUFFER, buffer) );              /* bind vertex buff */
         
-        //NOTE: We should make sure the layout stays what we want it to be:
-        GL_DEBUG(                                                       /* Redefine vertex buff layout */
-            glVertexAttribPointer(  _POSITION_ATTRIB_INDEX, 
-                                    2, GL_FLOAT, GL_FALSE, 
-                                    2*sizeof(float), 
-                                    0)
-                ); 
-        GL_DEBUG( glEnableVertexAttribArray(_POSITION_ATTRIB_INDEX) );  /* Enable position attrib */
-#endif
-        
-        GL_DEBUG( glBindVertexArray(vao) );                             /* Bind vertex array */
-        ib.Bind();
-        //GL_DEBUG( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo) );         /* Bind index buff */
-        GL_DEBUG( glUseProgram(shader) );                               /* Bind shader */
+        GL_DEBUG( glBindVertexArray(vao) ); /* Bind vertex array */
+        ib.Bind();                          /* Bind index-buffer */
+        GL_DEBUG( glUseProgram(shader) );   /* Bind shader */
         
         /* Update u_Color uniform (as a vec4) */
         GL_DEBUG( glUniform4f(location, red_ch, 1.0f, 0.0f, 1.0f) );
         
+        
         /* Render */
         GL_DEBUG( glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr) );
         
-        /* Update red channel each frame to animate color change */
+        /* Animate color change for next draw call */
         if (red_ch >= 1.0f)
         {
             increment = -0.05f;
@@ -366,7 +322,6 @@ int main(void)
         {
             increment =  0.05f;
         }
-        
         red_ch += increment;
             
         /* Swap front and back buffers */
