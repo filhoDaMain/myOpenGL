@@ -1,6 +1,9 @@
 #include "Renderer.h"
 #include "VertexArray.h"
 #include "VertexBufferLayout.h"
+#include <stdint.h>     /* uintptr_t */
+
+#define INT2VOIDP(i) (void*)(uintptr_t)(i)
 
 VertexArray::VertexArray()
 {
@@ -30,10 +33,12 @@ void VertexArray::AddBuffer(const VertexBuffer& vb, const VertexBufferLayout& la
     
     const auto& elements = layout.GetElements();
     unsigned int offset = 0;
+    GLvoid* offset_ptr;
     
     for (unsigned int i = 0; i < elements.size(); i++)
     {
         const auto& element = elements[i];
+        offset_ptr = INT2VOIDP(offset); /* avoid compiler warnings */
         
         GL_DEBUG( glEnableVertexAttribArray(i) );
         GL_DEBUG( glVertexAttribPointer(
@@ -42,7 +47,7 @@ void VertexArray::AddBuffer(const VertexBuffer& vb, const VertexBufferLayout& la
                         element.type,
                         element.is_normalized,
                         layout.GetStride(),
-                        (const GLvoid*) offset)
+                        offset_ptr)
                 );
         offset += element.n_components * VertexBufferElement::GetSizeOfType(element.type);
     }
