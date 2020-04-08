@@ -1,6 +1,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "Renderer.h"
+#include "VertexBuffer.h"
 
 #include <iostream>
 #include <fstream>
@@ -232,13 +233,16 @@ int main(void)
     /* ************************************* */
     /*  Bind to buffer containing raw data   */
     /* ************************************* */
+    VertexBuffer vb(positions, sizeof(positions));
+    
+#if 0
     GLuint buffer;
     GL_DEBUG( glGenBuffers(1, &buffer) );
     GL_DEBUG( glBindBuffer(GL_ARRAY_BUFFER /* vertex buffer */, buffer) );
     
     /* Write positions[] in buffer */
     GL_DEBUG( glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW) );
-     
+#endif    
     
     /* ************************************* */
     /*  Specify the data layout of buffer    */

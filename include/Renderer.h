@@ -2,6 +2,7 @@
 #define RENDERER_H
 
 #include <GL/glew.h>
+#include <signal.h> /* raise(SIGTRAP) */
 
 
 /* raise(SIGTRAP) will cause the program execution to break (POSIX) */
