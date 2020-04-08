@@ -37,11 +37,29 @@ void Shader::SetUniform4f(const std::string& name, float v0, float v1, float v2,
 
 int Shader::GetUniformLocation(const std::string& name)
 {
+    /**
+     * If we have already populated the hash table with a location 
+     * value for the key < name >, retrieve it now.
+     * 
+     * Otherwise, do the hard-work of finding location value and
+     * populate it on the hash table prior to return it.
+     */
+    if (m_UniformLocationCache.find(name) != m_UniformLocationCache.end())
+    {
+        /* Cache hit */
+        return m_UniformLocationCache[name];    /* valid map */
+    }
+    
+    /* Cache miss */
     GL_DEBUG( int location = glGetUniformLocation(m_RendererID, name.c_str()) );
+    
     if (location == -1)
     {
         std::cout << "Warning: uniform " << name << " has location = -1" << std::endl;
     }
+
+    /* Cache this value */
+    m_UniformLocationCache[name] = location;
     return location;
 }
 
