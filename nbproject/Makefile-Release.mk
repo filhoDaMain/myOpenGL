@@ -37,6 +37,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/src/IndexBuffer.o \
 	${OBJECTDIR}/src/Renderer.o \
+	${OBJECTDIR}/src/Shader.o \
 	${OBJECTDIR}/src/VertexArray.o \
 	${OBJECTDIR}/src/VertexBuffer.o \
 	${OBJECTDIR}/src/VertexBufferLayout.o \
@@ -76,6 +77,11 @@ ${OBJECTDIR}/src/Renderer.o: src/Renderer.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Renderer.o src/Renderer.cpp
+
+${OBJECTDIR}/src/Shader.o: src/Shader.cpp
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Shader.o src/Shader.cpp
 
 ${OBJECTDIR}/src/VertexArray.o: src/VertexArray.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
