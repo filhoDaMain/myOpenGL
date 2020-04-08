@@ -3,6 +3,8 @@
 #include "Renderer.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
+#include "VertexArray.h"
+#include "VertexBufferLayout.h"
 
 #include <iostream>
 #include <fstream>
@@ -224,11 +226,15 @@ int main(void)
     
     
     /* ************************************************************** */
-    /*    Create and Bind a Vertex Array                              */
+    /*    Create a Vertex Array                                       */
     /* ************************************************************** */
+    VertexArray va;     /* va is not bound yet! */
+    
+#if 0
     GLuint vao;
     GL_DEBUG( glGenVertexArrays(1, &vao) );
     GL_DEBUG( glBindVertexArray(vao) );
+#endif
 
     /* ************************************************************** */
     /*    Create / Bind / Write 'positions' into a vertex-buffer      */
@@ -237,24 +243,18 @@ int main(void)
       
     
     /* ************************************************************** */
-    /*  Specify the data layout of currently bound vertex-buffer (vb) */
+    /*  Specify the data layout of vb and link it with Vertex Array   */
     /* ************************************************************** */
-    GL_DEBUG( glEnableVertexAttribArray(_POSITION_ATTRIB_INDEX) );
-    GL_DEBUG( glVertexAttribPointer(
-                        _POSITION_ATTRIB_INDEX,
-                        2               /* two components (x_pos, y_pos) */,
-                        GL_FLOAT        /* data type */,
-                        GL_FALSE        /* don't normalize */,
-                        2*sizeof(float) /* size of an attribute */,
-                        0               /* offset of 1st vertex component */
-                        )
-            );
-    /**
-     * NOTE:
-     * glVertexAttribPointer() links currently bound vertex-buffer (vb)
-     * with currently bound Vertex Array (vao) 
-     */
     
+    /* Contains a vector of layouts */
+    VertexBufferLayout layout;
+    
+    /* Inserts a new standard-layout of '2' components (x, y) in the vector */
+    layout.PushStandardLayout<float>(2);
+    
+    /* Link vertex-buffer (vb) and its layouts with Vertex Array (va) */
+    va.AddBuffer(vb, layout);            /* NOTE: va is still unbound */
+
     
     /* ************************************************************** */
     /*    Create / Bind / Write 'indices' into an index-buffer        */
@@ -283,10 +283,10 @@ int main(void)
      * For Debug purposes,
      * unbind everything
      */
-    GL_DEBUG( glBindVertexArray(0) );   /* unbind Vertex Array */
-    vb.Unbind();                        /* unbind vertex-buffer */
-    ib.Unbind();                        /* unbind index-buffer */
-    GL_DEBUG( glUseProgram(0) );        /* unbind shader */
+    va.Unbind();                    /* unbind Vertex Array */
+    vb.Unbind();                    /* unbind vertex-buffer */
+    ib.Unbind();                    /* unbind index-buffer */
+    GL_DEBUG( glUseProgram(0) );    /* unbind shader */
     
     
     
@@ -302,7 +302,7 @@ int main(void)
         GL_DEBUG( glClear(GL_COLOR_BUFFER_BIT) );
         
         
-        GL_DEBUG( glBindVertexArray(vao) ); /* Bind vertex array */
+        va.Bind();                          /* Bind Vertex Array */
         ib.Bind();                          /* Bind index-buffer */
         GL_DEBUG( glUseProgram(shader) );   /* Bind shader */
         

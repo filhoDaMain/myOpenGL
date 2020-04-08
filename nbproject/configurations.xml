@@ -6,7 +6,9 @@
                    projectFiles="true">
       <itemPath>include/IndexBuffer.h</itemPath>
       <itemPath>include/Renderer.h</itemPath>
+      <itemPath>include/VertexArray.h</itemPath>
       <itemPath>include/VertexBuffer.h</itemPath>
+      <itemPath>include/VertexBufferLayout.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -17,7 +19,9 @@
                    projectFiles="true">
       <itemPath>src/IndexBuffer.cpp</itemPath>
       <itemPath>src/Renderer.cpp</itemPath>
+      <itemPath>src/VertexArray.cpp</itemPath>
       <itemPath>src/VertexBuffer.cpp</itemPath>
+      <itemPath>src/VertexBufferLayout.cpp</itemPath>
       <itemPath>src/main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -61,13 +65,21 @@
       </item>
       <item path="include/Renderer.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="include/VertexArray.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/VertexBuffer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/VertexBufferLayout.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/IndexBuffer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Renderer.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="src/VertexArray.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="src/VertexBuffer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/VertexBufferLayout.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/main.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -96,13 +108,21 @@
       </item>
       <item path="include/Renderer.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="include/VertexArray.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/VertexBuffer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/VertexBufferLayout.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/IndexBuffer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Renderer.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="src/VertexArray.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="src/VertexBuffer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/VertexBufferLayout.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/main.cpp" ex="false" tool="1" flavor2="0">
       </item>

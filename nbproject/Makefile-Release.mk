@@ -37,7 +37,9 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/src/IndexBuffer.o \
 	${OBJECTDIR}/src/Renderer.o \
+	${OBJECTDIR}/src/VertexArray.o \
 	${OBJECTDIR}/src/VertexBuffer.o \
+	${OBJECTDIR}/src/VertexBufferLayout.o \
 	${OBJECTDIR}/src/main.o
 
 
@@ -75,10 +77,20 @@ ${OBJECTDIR}/src/Renderer.o: src/Renderer.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Renderer.o src/Renderer.cpp
 
+${OBJECTDIR}/src/VertexArray.o: src/VertexArray.cpp
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/VertexArray.o src/VertexArray.cpp
+
 ${OBJECTDIR}/src/VertexBuffer.o: src/VertexBuffer.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/VertexBuffer.o src/VertexBuffer.cpp
+
+${OBJECTDIR}/src/VertexBufferLayout.o: src/VertexBufferLayout.cpp
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/VertexBufferLayout.o src/VertexBufferLayout.cpp
 
 ${OBJECTDIR}/src/main.o: src/main.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
