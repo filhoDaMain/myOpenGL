@@ -35,7 +35,9 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/src/IndexBuffer.o \
 	${OBJECTDIR}/src/Renderer.o \
+	${OBJECTDIR}/src/VertexBuffer.o \
 	${OBJECTDIR}/src/main.o
 
 
@@ -43,8 +45,8 @@ OBJECTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=
-CXXFLAGS=
+CCFLAGS=-ggdb
+CXXFLAGS=-ggdb
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -67,10 +69,20 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/myopengl: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/myopengl ${OBJECTFILES} ${LDLIBSOPTIONS} -framework CoreFoundation -framework CoreGraphics -framework IOKit -framework AppKit -framework OpenGL
 
+${OBJECTDIR}/src/IndexBuffer.o: src/IndexBuffer.cpp
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -Ilib/include -Iinclude -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/IndexBuffer.o src/IndexBuffer.cpp
+
 ${OBJECTDIR}/src/Renderer.o: src/Renderer.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -Ilib/include -Iinclude -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Renderer.o src/Renderer.cpp
+
+${OBJECTDIR}/src/VertexBuffer.o: src/VertexBuffer.cpp
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -Ilib/include -Iinclude -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/VertexBuffer.o src/VertexBuffer.cpp
 
 ${OBJECTDIR}/src/main.o: src/main.cpp
 	${MKDIR} -p ${OBJECTDIR}/src

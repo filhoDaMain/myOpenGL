@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 #include "Renderer.h"
 #include "VertexBuffer.h"
+#include "IndexBuffer.h"
 
 #include <iostream>
 #include <fstream>
@@ -274,12 +275,16 @@ int main(void)
     /* ************************************************************** */
     /*  Bind to index buffer (indexes of raw data buffer to be used)  */
     /* ************************************************************** */
+    IndexBuffer ib(indices, (unsigned int)(sizeof(indices)/sizeof(unsigned int)));
+    
+#if 0
     GLuint ibo; /* Index Buffer Object */
     GL_DEBUG( glGenBuffers(1, &ibo) );
     GL_DEBUG( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER /* index buffer */, ibo) );
     
     /* Write indices[] in ibo */
     GL_DEBUG( glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW));
+#endif
     
     /* ************************************* */
     /*  Read shaders source code from file   */
@@ -342,7 +347,8 @@ int main(void)
 #endif
         
         GL_DEBUG( glBindVertexArray(vao) );                             /* Bind vertex array */
-        GL_DEBUG( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo) );         /* Bind index buff */
+        ib.Bind();
+        //GL_DEBUG( glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo) );         /* Bind index buff */
         GL_DEBUG( glUseProgram(shader) );                               /* Bind shader */
         
         /* Update u_Color uniform (as a vec4) */
