@@ -145,7 +145,7 @@ int main(void)
     while (!glfwWindowShouldClose(window))
     {
         /* Clear screen */
-        GL_DEBUG( glClear(GL_COLOR_BUFFER_BIT) );
+        renderer.Clear();
         
         /* Shader has to be bound prior to Update a uniform */
         shader.Bind();
