@@ -13,7 +13,8 @@
 #include <sstream>
 #include <signal.h> /* raise(SIGTRAP) */
 
-#define SHADER_FILE_PATH "./res/shaders/Basic.shader"   /* Relative to project base dir */
+#define SHADER_FILE_PATH    "./res/shaders/Basic.shader"    /* Relative to project base dir */
+#define MY_COLOR_UNIFORM4   "u_Color"                       /* Name for a vec4 uniform to encode color */                     
 
 int main(void)
 {
@@ -114,7 +115,7 @@ int main(void)
     /* ************************************************************** */
     Shader shader(SHADER_FILE_PATH);
     shader.Bind();
-    shader.SetUniform4f("u_Color", 1.0f, 1.0f, 0.0f, 1.0);
+    shader.SetUniform4f(MY_COLOR_UNIFORM4, 1.0f, 1.0f, 0.0f, 1.0);
     
     
     /* ************************************************************** */
@@ -150,7 +151,7 @@ int main(void)
         shader.Bind();
         
         /* Update u_Color uniform (as a vec4) */
-        shader.SetUniform4f("u_Color", red_ch, 1.0f, 0.0f, 1.0f); 
+        shader.SetUniform4f(MY_COLOR_UNIFORM4, red_ch, 1.0f, 0.0f, 1.0f); 
   
         /* Draw Call */
         renderer.Draw(va, ib, shader); 
