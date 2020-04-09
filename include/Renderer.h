@@ -3,6 +3,9 @@
 
 #include <GL/glew.h>
 #include <signal.h> /* raise(SIGTRAP) */
+#include "VertexArray.h"
+#include "IndexBuffer.h"
+#include "Shader.h"
 
 
 /* raise(SIGTRAP) will cause the program execution to break (POSIX) */
@@ -14,6 +17,14 @@
 
 extern void _glClearError(void);
 extern bool _glLogCall(const char* function, const char* srcfile, int line);
+
+class Renderer
+{
+private:
+    
+public:
+    void Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader) const;
+};
 
 #endif /* RENDERER_H */
 

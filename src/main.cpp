@@ -91,10 +91,15 @@ int main(void)
     /* Contains a vector of layouts */
     VertexBufferLayout layout;
     
-    /* Inserts a new standard-layout of '2' components (x, y) in the vector */
-    layout.PushStandardLayout<float>(2);
+    /* Inserts a new standard-layout of '2' floats (x, y) in the vector */
+    layout.PushStandardLayout<float>(2 /* how to group consecutive floats */);
     
-    /* Link vertex-buffer (vb) and its layouts with Vertex Array (va) */
+    /**
+     * Link vertex-buffer (vb) and its layouts with Vertex Array (va).
+     * 
+     * Linking 'layout' with 'vb' means that vb should be considered
+     * as a group of float pairs (2) stacked: (x0_f, y0_f), (x1_f, y1_f), ...
+     */
     va.AddBuffer(vb, layout);            /* NOTE: va is still unbound */
 
     
@@ -112,6 +117,12 @@ int main(void)
     shader.SetUniform4f("u_Color", 1.0f, 1.0f, 0.0f, 1.0);
     
     
+    /* ************************************************************** */
+    /*    Create a Renderer object                                    */
+    /* ************************************************************** */
+    Renderer renderer;
+    
+    
     
     /**
      * For Debug purposes,
@@ -121,7 +132,8 @@ int main(void)
     vb.Unbind();        /* unbind vertex-buffer */
     ib.Unbind();        /* unbind index-buffer */
     shader.Unbind();    /* unbind shader */
-     
+    
+    
     
     /* Animate red channel inside for loop */
     /* ------------------------------------------------------ */
@@ -134,17 +146,15 @@ int main(void)
         /* Clear screen */
         GL_DEBUG( glClear(GL_COLOR_BUFFER_BIT) );
         
+        /* Shader has to be bound prior to Update a uniform */
+        shader.Bind();
         
-        va.Bind();          /* Bind Vertex Array */
-        ib.Bind();          /* Bind index-buffer */
-        shader.Bind();      /* Bind shader */
-                
         /* Update u_Color uniform (as a vec4) */
         shader.SetUniform4f("u_Color", red_ch, 1.0f, 0.0f, 1.0f); 
-        
-        
-        /* Render */
-        GL_DEBUG( glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr) );
+  
+        /* Draw Call */
+        renderer.Draw(va, ib, shader); 
+      
         
         /* Animate color change for next draw call */
         if (red_ch >= 1.0f)

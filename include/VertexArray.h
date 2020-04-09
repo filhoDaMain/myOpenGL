@@ -2,7 +2,11 @@
 #define VERTEXARRAY_H
 
 #include "VertexBuffer.h"
-#include "VertexBufferLayout.h" 
+
+/* We choose to not include VertexBufferLayout to avoid mutual includes! */
+/* Mutual inclusions: Render.h -> VertexArray.h -> VertexBufferLayout.h -> Renderer.h */
+
+class VertexBufferLayout;   /* Declared in VertexBufferLayout.h */
 
 class VertexArray
 {
