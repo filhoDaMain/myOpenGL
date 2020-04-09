@@ -139,13 +139,6 @@ int main(void)
     
     
     /* ************************************************************** */
-    /* Read / Compile / Link shaders;  Set shaders Uniform for color  */
-    /* ************************************************************** */
-    Shader shader(SHADER_FILE_PATH);
-    shader.Bind();
-    
-    
-    /* ************************************************************** */
     /*    Create a Renderer object                                    */
     /* ************************************************************** */
     Renderer renderer;
@@ -156,6 +149,13 @@ int main(void)
     /* ************************************************************** */
     Texture texture(TEXTURE_MORIS_PATH);
     texture.Bind(TEXTURE_MORIS_SLOT);
+    
+    
+    /* ************************************************************** */
+    /* Saders - Set Texture Uniform for currently bound texture slot  */
+    /* ************************************************************** */
+    Shader shader(SHADER_FILE_PATH);
+    shader.Bind();
     shader.SetUniform1i("u_Texture", TEXTURE_MORIS_SLOT);
     
     
