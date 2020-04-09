@@ -16,7 +16,7 @@ VertexBufferLayout::~VertexBufferLayout()
 
 // FLOAT
 template<>
-void VertexBufferLayout::PushStandardLayout<float>(unsigned int n_components)
+void VertexBufferLayout::PushVertexAttribLayout<float>(unsigned int n_components)
 {
     m_Elements.push_back({GL_FLOAT, n_components, GL_FALSE});
     m_Stride += sizeof(GLfloat) * n_components;
@@ -24,7 +24,7 @@ void VertexBufferLayout::PushStandardLayout<float>(unsigned int n_components)
 
 // UNSIGNED INT
 template<>
-void VertexBufferLayout::PushStandardLayout<unsigned int>(unsigned int n_components)
+void VertexBufferLayout::PushVertexAttribLayout<unsigned int>(unsigned int n_components)
 {
     m_Elements.push_back({GL_UNSIGNED_INT, n_components, GL_FALSE});
     m_Stride += sizeof(GLuint) * n_components; 
@@ -32,7 +32,7 @@ void VertexBufferLayout::PushStandardLayout<unsigned int>(unsigned int n_compone
 
 // UNSIGNED CHAR
 template<>
-void VertexBufferLayout::PushStandardLayout<unsigned char>(unsigned int n_components)
+void VertexBufferLayout::PushVertexAttribLayout<unsigned char>(unsigned int n_components)
 {
     m_Elements.push_back({GL_UNSIGNED_BYTE, n_components, GL_TRUE });
     m_Stride += sizeof(GLbyte) * n_components; 

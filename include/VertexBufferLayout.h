@@ -45,7 +45,7 @@ public:
      * Example: If 1 attribute encodes (x_pos, y_pos) => n_components = 2
      */
     template<typename T>
-    void PushStandardLayout(unsigned int n_components)
+    void PushVertexAttribLayout(unsigned int n_components)
     {
         //static_assert(false, "No template specialization found for requested type");
     }

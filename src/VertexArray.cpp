@@ -39,7 +39,7 @@ void VertexArray::AddBuffer(const VertexBuffer& vb, const VertexBufferLayout& la
     {
         const auto& element = elements[i];
         offset_ptr = INT2VOIDP(offset); /* avoid compiler warnings */
-        
+
         GL_DEBUG( glEnableVertexAttribArray(i) );
         GL_DEBUG( glVertexAttribPointer(
                         i,

@@ -29,6 +29,9 @@
 /* Uniforms */
 #define MY_COLOR_UNIFORM4   "u_Color"   /* vec4 uniform name for color */
 
+/* Texture slots */
+#define TEXTURE_MORIS_SLOT  0           /* The slot where our texture is bound */
+
 int main(void)
 {
     GLFWwindow* window;
@@ -65,30 +68,22 @@ int main(void)
     
     
     /* ************************************************************** */
-    /*    My Graphics Data (vertex positions and vertex indices)      */
+    /*    My Graphics Data (vertexes and vertex indices)              */
     /* ************************************************************** */
     
-    /* Vertex positions without duplicates */
-    float positions[16] = {
-        /*   |- Vector pos ---|-- Texture coordinate boundaries ----| */
-        /* 0 */ -0.5f, -0.5f,   0.0f, 0.0f  /* bottom left corner */,
-        /* 1 */  0.5f, -0.5f,   1.0f, 0.0f  /* bottom right corner */,
-        /* 2 */  0.5f,  0.5f,   1.0f, 1.0f  /* upper right corner */,
-        /* 3 */ -0.5f,  0.5f,   0.0f, 1.0f  /* upper left corner */
+    /* SEE TABLE doc/VertexAttributes.txt */
+    
+    float vertexAttribs[16] = {
+        /*      |--- Vector pos ----|----- Texture coordinate boundaries ----| */
+        /* 0 */     -0.5f, -0.5f,       0.0f, 0.0f  /* bottom left corner */,
+        /* 1 */      0.5f, -0.5f,       1.0f, 0.0f  /* bottom right corner */,
+        /* 2 */      0.5f,  0.5f,       1.0f, 1.0f  /* upper right corner */,
+        /* 3 */     -0.5f,  0.5f,       0.0f, 1.0f  /* upper left corner */
+        /*      |- Attrib index 0 --|-------------- Attrib index 1 ----------| */
+        /*      |-------------- S T R I D E ---------------------------------| */
     };
     
-    
-#if 0
-    /* Vertex positions without duplicates */
-    float positions[8] = {
-        /* 0 */ -0.5f, -0.5f,
-        /* 1 */  0.5f, -0.5f,
-        /* 2 */  0.5f,  0.5f,
-        /* 3 */ -0.5f,  0.5f
-    };
-#endif
-    
-    /* Using position indices to specify each triangle vertex position */
+    /* Using vertexAttribs indices to specify each triangle vertex */
     unsigned int indices[6] = {
         /* 1st triangle */
         0, 1, 2,
@@ -105,9 +100,9 @@ int main(void)
     
 
     /* ************************************************************** */
-    /*    Create / Bind / Write 'positions' into a vertex-buffer      */
+    /*    Create / Bind / Write 'vertexAttribs' into a vertex-buffer  */
     /* ************************************************************** */
-    VertexBuffer vb(positions, sizeof(positions));  /* vb stays bound */
+    VertexBuffer vb(vertexAttribs, sizeof(vertexAttribs));  /* vb stays bound */
       
     
     /* ************************************************************** */
@@ -117,15 +112,22 @@ int main(void)
     /* Contains a vector of layouts */
     VertexBufferLayout layout;
     
-    /* Inserts a new standard-layout of '2' floats (x, y) in the vector */
-    layout.PushStandardLayout<float>(2 /* how to group consecutive floats */);
-    layout.PushStandardLayout<float>(2); /* texture coordinates */
+    /**
+     * Layouts are inserted by vertex attribute index order.
+     * 
+     * This means, 1st inserted layout defines vertex attrib index 0 - position;
+     * next layout defines attrib index 1 - normal;
+     * and so on...
+     * (SEE TABLE doc/VertexAttributes.txt)
+     * 
+     * Each time a layout is inserted, stride size (Bytes) is properly updated.
+     *  
+     */
+    layout.PushVertexAttribLayout<float>(2);    /* Vertex attrib index 0: as '2' floats */
+    layout.PushVertexAttribLayout<float>(2);    /* Vertex attrib index 1: as '2' floats */
     
     /**
      * Link vertex-buffer (vb) and its layouts with Vertex Array (va).
-     * 
-     * Linking 'layout' with 'vb' means that vb should be considered
-     * as a group of float pairs (2) stacked: (x0_f, y0_f), (x1_f, y1_f), ...
      */
     va.AddBuffer(vb, layout);            /* NOTE: va is still unbound */
 
@@ -141,7 +143,6 @@ int main(void)
     /* ************************************************************** */
     Shader shader(SHADER_FILE_PATH);
     shader.Bind();
-    //shader.SetUniform4f(MY_COLOR_UNIFORM4, 1.0f, 1.0f, 0.0f, 1.0);
     
     
     /* ************************************************************** */
@@ -154,8 +155,9 @@ int main(void)
     /*    Textures                                                    */
     /* ************************************************************** */
     Texture texture(TEXTURE_MORIS_PATH);
-    texture.Bind(0 /* slot number */);
-    shader.SetUniform1i("u_Texture", 0 /* texture is bound in slot 0 */);
+    texture.Bind(TEXTURE_MORIS_SLOT);
+    shader.SetUniform1i("u_Texture", TEXTURE_MORIS_SLOT);
+    
     
     /**
      * For Debug purposes,
@@ -166,13 +168,6 @@ int main(void)
     ib.Unbind();        /* unbind index-buffer */
     shader.Unbind();    /* unbind shader */
     
-    
-    
-    /* Animate red channel inside for loop */
-    /* ------------------------------------------------------ */
-    float red_ch = 0.0f;
-    float increment = 0.05f;
-    
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
@@ -182,24 +177,9 @@ int main(void)
         /* Shader has to be bound prior to Update a uniform */
         shader.Bind();
         
-        /* Update u_Color uniform (as a vec4) */
-        //shader.SetUniform4f(MY_COLOR_UNIFORM4, red_ch, 1.0f, 0.0f, 1.0f); 
-  
         /* Draw Call */
         renderer.Draw(va, ib, shader); 
       
-        
-        /* Animate color change for next draw call */
-        if (red_ch >= 1.0f)
-        {
-            increment = -0.05f;
-        }
-        else if (red_ch < 0)
-        {
-            increment =  0.05f;
-        }
-        red_ch += increment;
-            
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
 

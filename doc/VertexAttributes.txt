@@ -18,3 +18,41 @@
  *  11      gl_FogCoord             Fog Coord (float)
  * 
  */
+
+
+    float vertexAttribs[16] = {
+        /*      |--- Vector pos ----|----- Texture coordinate boundaries ----| */
+        /* 0 */     -0.5f, -0.5f,       0.0f, 0.0f  /* bottom left corner */,
+        /* 1 */      0.5f, -0.5f,       1.0f, 0.0f  /* bottom right corner */,
+        /* 2 */      0.5f,  0.5f,       1.0f, 1.0f  /* upper right corner */,
+        /* 3 */     -0.5f,  0.5f,       0.0f, 1.0f  /* upper left corner */
+        /*      |- Attrib index 0 --|-------------- Attrib index 1 ----------| */
+        /*      |-------------- S T R I D E ---------------------------------| */
+    };
+
+
+    /**
+     * Layouts are inserted by vertex attribute index order.
+     * 
+     * This means, 1st inserted layout defines vertex attrib index 0 - position;
+     * next layout defines attrib index 1 - normal;
+     * and so on...
+     * (SEE TABLE doc/VertexAttributes.txt)
+     * 
+     * Each time a layout is inserted, stride size (Bytes) is properly updated.
+     *  
+     */
+    layout.PushVertexAttribLayout<float>(2);    /* Vertex attrib index 0: as '2' floats */
+    layout.PushVertexAttribLayout<float>(2);    /* Vertex attrib index 1: as '2' floats */
+
+
+
+    /**
+     * Link vertex-buffer (vb) and its layouts with Vertex Array (va).
+     * 
+     * 
+     * |------ stride size --------|--------------------------|
+     *  (x0_f, y0_f), (l0_f, m0_f), (x1_f, y1_f), (l1_f, m1_f),  (...)
+     * |- layout 0 -|-- layout 1 --|- layout 0 -|-- layout 1 --| (...)
+     */
+    va.AddBuffer(vb, layout);            /* NOTE: va is still unbound */
