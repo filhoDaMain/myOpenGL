@@ -6,6 +6,7 @@
 #include "VertexArray.h"
 #include "VertexBufferLayout.h"
 #include "Shader.h"
+#include "Texture.h"
 
 #include <iostream>
 #include <fstream>
@@ -13,8 +14,20 @@
 #include <sstream>
 #include <signal.h> /* raise(SIGTRAP) */
 
-#define SHADER_FILE_PATH    "./res/shaders/Basic.shader"    /* Relative to project base dir */
-#define MY_COLOR_UNIFORM4   "u_Color"                       /* Name for a vec4 uniform to encode color */                     
+/**
+ * NOTE:
+ * 
+ * File Paths are all defined relative to project base directory 
+ */
+
+/* Shaders */
+#define SHADER_FILE_PATH    "./res/shaders/Basic.shader"
+
+/* Textures */
+#define TEXTURE_MORIS_PATH  "./res/textures/Moris_28x20cm.png"
+
+/* Uniforms */
+#define MY_COLOR_UNIFORM4   "u_Color"   /* vec4 uniform name for color */
 
 int main(void)
 {
@@ -56,12 +69,24 @@ int main(void)
     /* ************************************************************** */
     
     /* Vertex positions without duplicates */
+    float positions[16] = {
+        /*   |- Vector pos ---|-- Texture coordinate boundaries ----| */
+        /* 0 */ -0.5f, -0.5f,   0.0f, 0.0f  /* bottom left corner */,
+        /* 1 */  0.5f, -0.5f,   1.0f, 0.0f  /* bottom right corner */,
+        /* 2 */  0.5f,  0.5f,   1.0f, 1.0f  /* upper right corner */,
+        /* 3 */ -0.5f,  0.5f,   0.0f, 1.0f  /* upper left corner */
+    };
+    
+    
+#if 0
+    /* Vertex positions without duplicates */
     float positions[8] = {
         /* 0 */ -0.5f, -0.5f,
         /* 1 */  0.5f, -0.5f,
         /* 2 */  0.5f,  0.5f,
         /* 3 */ -0.5f,  0.5f
     };
+#endif
     
     /* Using position indices to specify each triangle vertex position */
     unsigned int indices[6] = {
@@ -94,6 +119,7 @@ int main(void)
     
     /* Inserts a new standard-layout of '2' floats (x, y) in the vector */
     layout.PushStandardLayout<float>(2 /* how to group consecutive floats */);
+    layout.PushStandardLayout<float>(2); /* texture coordinates */
     
     /**
      * Link vertex-buffer (vb) and its layouts with Vertex Array (va).
@@ -115,7 +141,7 @@ int main(void)
     /* ************************************************************** */
     Shader shader(SHADER_FILE_PATH);
     shader.Bind();
-    shader.SetUniform4f(MY_COLOR_UNIFORM4, 1.0f, 1.0f, 0.0f, 1.0);
+    //shader.SetUniform4f(MY_COLOR_UNIFORM4, 1.0f, 1.0f, 0.0f, 1.0);
     
     
     /* ************************************************************** */
@@ -124,6 +150,12 @@ int main(void)
     Renderer renderer;
     
     
+    /* ************************************************************** */
+    /*    Textures                                                    */
+    /* ************************************************************** */
+    Texture texture(TEXTURE_MORIS_PATH);
+    texture.Bind(0 /* slot number */);
+    shader.SetUniform1i("u_Texture", 0 /* texture is bound in slot 0 */);
     
     /**
      * For Debug purposes,
@@ -151,7 +183,7 @@ int main(void)
         shader.Bind();
         
         /* Update u_Color uniform (as a vec4) */
-        shader.SetUniform4f(MY_COLOR_UNIFORM4, red_ch, 1.0f, 0.0f, 1.0f); 
+        //shader.SetUniform4f(MY_COLOR_UNIFORM4, red_ch, 1.0f, 0.0f, 1.0f); 
   
         /* Draw Call */
         renderer.Draw(va, ib, shader); 

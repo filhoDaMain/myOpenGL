@@ -7,6 +7,7 @@
       <itemPath>include/IndexBuffer.h</itemPath>
       <itemPath>include/Renderer.h</itemPath>
       <itemPath>include/Shader.h</itemPath>
+      <itemPath>include/Texture.h</itemPath>
       <itemPath>include/VertexArray.h</itemPath>
       <itemPath>include/VertexBuffer.h</itemPath>
       <itemPath>include/VertexBufferLayout.h</itemPath>
@@ -23,6 +24,7 @@
       <itemPath>src/IndexBuffer.cpp</itemPath>
       <itemPath>src/Renderer.cpp</itemPath>
       <itemPath>src/Shader.cpp</itemPath>
+      <itemPath>src/Texture.cpp</itemPath>
       <itemPath>src/VertexArray.cpp</itemPath>
       <itemPath>src/VertexBuffer.cpp</itemPath>
       <itemPath>src/VertexBufferLayout.cpp</itemPath>
@@ -72,6 +74,8 @@
       </item>
       <item path="include/Shader.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="include/Texture.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/VertexArray.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/VertexBuffer.h" ex="false" tool="3" flavor2="0">
@@ -85,6 +89,8 @@
       <item path="src/Renderer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Shader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Texture.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/VertexArray.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -125,6 +131,8 @@
       </item>
       <item path="include/Shader.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="include/Texture.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/VertexArray.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/VertexBuffer.h" ex="false" tool="3" flavor2="0">
@@ -138,6 +146,8 @@
       <item path="src/Renderer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Shader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Texture.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/VertexArray.cpp" ex="false" tool="1" flavor2="0">
       </item>

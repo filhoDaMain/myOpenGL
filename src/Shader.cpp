@@ -29,11 +29,23 @@ void Shader::Unbind() const
     GL_DEBUG( glUseProgram(0) );
 }
 
+
 /* Set Uniforms */
+/* ************************************************************************************ */
+
+/* 1 Integer */
+void Shader::SetUniform1i(const std::string& name, int v0)
+{
+    GL_DEBUG( glUniform1i(GetUniformLocation(name), v0) );
+}
+
+/* 4 floats (vec4) */
 void Shader::SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3)
 {
     GL_DEBUG( glUniform4f(GetUniformLocation(name), v0, v1, v2, v3) );
 }
+/* ************************************************************************************ */
+
 
 int Shader::GetUniformLocation(const std::string& name)
 {

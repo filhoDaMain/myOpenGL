@@ -38,6 +38,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/IndexBuffer.o \
 	${OBJECTDIR}/src/Renderer.o \
 	${OBJECTDIR}/src/Shader.o \
+	${OBJECTDIR}/src/Texture.o \
 	${OBJECTDIR}/src/VertexArray.o \
 	${OBJECTDIR}/src/VertexBuffer.o \
 	${OBJECTDIR}/src/VertexBufferLayout.o \
@@ -87,6 +88,11 @@ ${OBJECTDIR}/src/Shader.o: src/Shader.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -Ilib/include -Iinclude -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Shader.o src/Shader.cpp
+
+${OBJECTDIR}/src/Texture.o: src/Texture.cpp
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -Ilib/include -Iinclude -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Texture.o src/Texture.cpp
 
 ${OBJECTDIR}/src/VertexArray.o: src/VertexArray.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
