@@ -41,7 +41,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/VertexArray.o \
 	${OBJECTDIR}/src/VertexBuffer.o \
 	${OBJECTDIR}/src/VertexBufferLayout.o \
-	${OBJECTDIR}/src/main.o
+	${OBJECTDIR}/src/main.o \
+	${OBJECTDIR}/src/vendor/stb/stb_image.o
 
 
 # C Compiler Flags
@@ -106,6 +107,11 @@ ${OBJECTDIR}/src/main.o: src/main.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -Ilib/include -Iinclude -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/main.o src/main.cpp
+
+${OBJECTDIR}/src/vendor/stb/stb_image.o: src/vendor/stb/stb_image.cpp
+	${MKDIR} -p ${OBJECTDIR}/src/vendor/stb
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -Ilib/include -Iinclude -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/vendor/stb/stb_image.o src/vendor/stb/stb_image.cpp
 
 # Subprojects
 .build-subprojects:

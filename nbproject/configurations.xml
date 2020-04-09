@@ -10,6 +10,8 @@
       <itemPath>include/VertexArray.h</itemPath>
       <itemPath>include/VertexBuffer.h</itemPath>
       <itemPath>include/VertexBufferLayout.h</itemPath>
+      <itemPath>lib/include/stb/stb_image.h</itemPath>
+      <itemPath>src/vendor/stb/stb_image.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -25,6 +27,7 @@
       <itemPath>src/VertexBuffer.cpp</itemPath>
       <itemPath>src/VertexBufferLayout.cpp</itemPath>
       <itemPath>src/main.cpp</itemPath>
+      <itemPath>src/vendor/stb/stb_image.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -75,6 +78,8 @@
       </item>
       <item path="include/VertexBufferLayout.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="lib/include/stb/stb_image.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/IndexBuffer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Renderer.cpp" ex="false" tool="1" flavor2="0">
@@ -88,6 +93,10 @@
       <item path="src/VertexBufferLayout.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/vendor/stb/stb_image.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/vendor/stb/stb_image.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -122,6 +131,8 @@
       </item>
       <item path="include/VertexBufferLayout.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="lib/include/stb/stb_image.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/IndexBuffer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Renderer.cpp" ex="false" tool="1" flavor2="0">
@@ -135,6 +146,10 @@
       <item path="src/VertexBufferLayout.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/vendor/stb/stb_image.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/vendor/stb/stb_image.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>
