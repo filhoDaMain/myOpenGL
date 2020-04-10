@@ -15,7 +15,7 @@ Texture::Texture(const std::string& path)
     m_LocalBuffer = stbi_load(  path.c_str(),
                                 &m_Width, &m_Height,
                                 &m_bpp,
-                                4 /* desired bpp (rgba)*/);
+                                4 /* desired 8-bpp (rgba)*/);
     
     /* Generate and Bind an OpenGL Texture */
     GL_DEBUG( glGenTextures(1, &m_RendererID) );

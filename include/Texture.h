@@ -9,7 +9,7 @@ private:
     unsigned int    m_RendererID;
     std::string     m_FilePath;
     unsigned char*  m_LocalBuffer;
-    int             m_Width, m_Height, m_bpp /* bits per pixel */;
+    int             m_Width, m_Height, m_bpp /* 8-bits per pixel */;
     
 public:
     Texture(const std::string& path);
