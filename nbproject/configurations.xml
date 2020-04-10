@@ -57,6 +57,7 @@
           <incDir>
             <pElem>lib/include</pElem>
             <pElem>include</pElem>
+            <pElem>src/vendor</pElem>
           </incDir>
           <commandLine>-ggdb</commandLine>
         </ccTool>
