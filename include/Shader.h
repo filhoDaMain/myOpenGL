@@ -3,6 +3,7 @@
 
 #include <string>
 #include <unordered_map>    /* Hash table */
+#include "glm/glm.hpp"
 
 struct ShaderSourceCode
 {
@@ -32,6 +33,9 @@ public:
     
     /* 4 floats (vec4) */
     void SetUniform4f(const std::string& name, float v0, float v1, float f2, float f3);
+    
+    /* Matrix 4x4 floats */
+    void SetUniformMat4f(const std::string& name, const glm::mat4& matrix);
     /* ***************************************************************************** */
     
 private:

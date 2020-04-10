@@ -7,6 +7,8 @@
 #include "VertexBufferLayout.h"
 #include "Shader.h"
 #include "Texture.h"
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 
 #include <iostream>
 #include <fstream>
@@ -152,12 +154,21 @@ int main(void)
     
     
     /* ************************************************************** */
-    /* Shaders: Set Texture Uniform for currently bound texture slot  */
+    /*    Projection Matrix                                           */
+    /* ************************************************************** */
+    /* Create 4x4 Matrix with orthographic projection */
+    glm::mat4 proj = glm::ortho(-0.5f, 0.5f, -0.5f, 0.5f, -1.0f, 1.0f);
+    
+    /* NOTE: We can play with the aspect ratio */
+    
+    
+    /* ************************************************************** */
+    /* Shaders: Set Uniforms                                          */
     /* ************************************************************** */
     Shader shader(SHADER_FILE_PATH);
     shader.Bind();
     shader.SetUniform1i("u_Texture", TEXTURE_SLOT__MORIS);
-    
+    shader.SetUniformMat4f("u_MVP", proj);  /* MVP: Model View Projection matrix */
     
     /**
      * For Debug purposes,

@@ -44,6 +44,11 @@ void Shader::SetUniform4f(const std::string& name, float v0, float v1, float v2,
 {
     GL_DEBUG( glUniform4f(GetUniformLocation(name), v0, v1, v2, v3) );
 }
+
+/* Matrix 4x4 floats */
+void Shader::SetUniformMat4f(const std::string& name, const glm::mat4& matrix){
+    GL_DEBUG( glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &(matrix[0][0])) );
+}
 /* ************************************************************************************ */
 
 
