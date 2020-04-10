@@ -24,13 +24,13 @@
 #define SHADER_FILE_PATH    "./res/shaders/Basic.shader"
 
 /* Textures */
-#define TEXTURE_MORIS_PATH  "./res/textures/Moris_28x20cm.png"
+#define TEXTURE_PATH__MORIS "./res/textures/Moris_28x20cm.png"
 
 /* Uniforms */
 #define MY_COLOR_UNIFORM4   "u_Color"   /* vec4 uniform name for color */
 
 /* Texture slots */
-#define TEXTURE_MORIS_SLOT  0           /* The slot where our texture is bound */
+#define TEXTURE_SLOT__MORIS  0           /* The slot where our texture is bound */
 
 int main(void)
 {
@@ -147,16 +147,16 @@ int main(void)
     /* ************************************************************** */
     /*    Textures                                                    */
     /* ************************************************************** */
-    Texture texture(TEXTURE_MORIS_PATH);
-    texture.Bind(TEXTURE_MORIS_SLOT);
+    Texture texture(TEXTURE_PATH__MORIS);
+    texture.Bind(TEXTURE_SLOT__MORIS);
     
     
     /* ************************************************************** */
-    /* Saders - Set Texture Uniform for currently bound texture slot  */
+    /* Shaders: Set Texture Uniform for currently bound texture slot  */
     /* ************************************************************** */
     Shader shader(SHADER_FILE_PATH);
     shader.Bind();
-    shader.SetUniform1i("u_Texture", TEXTURE_MORIS_SLOT);
+    shader.SetUniform1i("u_Texture", TEXTURE_SLOT__MORIS);
     
     
     /**

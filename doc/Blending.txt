@@ -1,0 +1,161 @@
+*   Blending is the result of combining a new pixel (src buffer) with a pixel already in the
+    frame buffer (dst buffer).
+
+*   The Blending Equation is computed for each pixel, to determine the result of a src pixel
+    combined with a dst pixel using the configured paramenters.
+
+
+
+
+
+#1  Enable / Disable:
+
+        glEnable(GL_BLEND);
+        glDisable(GL_BLEND);
+
+
+
+#2  SRC Factor / DST Factor:
+
+        glBlendFunc(factorSRC, factorDST);
+
+    Defines the multiplier factor of sourc and destination buffers when computing the Blend Equation
+
+
+    Default Values ( when not set with glBlendFunc() )
+    factorSRC:  GL_ONE  (1)
+    factorDST:  GL_ZERO (0)
+
+
+
+#3  Blend Equation 
+    
+    glBlendEquation(mode)
+
+    Defines how a new pixel (src buffer) is combined with a pixel already in the frame buffer (dst buffer)
+
+    default:    GL_FUNC_ADD ( + )
+
+
+
+**************************************************************************************************************
+**************************************************************************************************************
+
+E X A M P L E S
+
+
+Example 1: Using default parameters
+--------------------------------------------------------------------------------------------------------------
+    
+    factorSRC   =   GL_ONE      ( 1 )
+    factorDST   =   GL_ZERO     ( 0 )
+    funcMODE    =   GL_FUNC_ADD ( + )
+
+
+
+Blending Equation result:
+
+    rgbaSRC * factorSRC  +  rgbaDST * factorDST =
+                         ^
+                         |
+                     funcMODE
+
+=   rgbaSRC * 1 + rgbaDST * 0
+
+=   rgbaSRC     
+
+
+=>  RESULT MEANS:   Use the source rgba (original values)
+
+
+
+
+
+Example 2:
+--------------------------------------------------------------------------------------------------------------
+
+    factorSRC   =   GL_SRC_ALPHA            ( alphaSRC )
+    factorDST   =   GL_ONE_MINUS_SRC_ALPHA  ( 1 - alphaSRC )
+    funcMODE    =   GL_FUNC_ADD             ( + )
+
+    NOTE:       factorSRC and factorDST depend on the alpha value of thew new pixel (src buffer), 
+                so they are computed for each pixel!
+
+
+
+Example 2.1:    Transparent SRC Pixel  ( alphaSRC = 0 )
+..............................................................................................................
+
+    factorSRC   =   GL_SRC_ALPHA            =   0
+    factorDST   =   GL_ONE_MINUS_SRC_ALPHA  =   1 - 0 = 1
+
+For this pixel:
+    factorSRC   = 0
+    factorDST   = 1
+    funcMODE    = GL_FUNC_ADD
+
+
+For this pixel,
+Blending Equation result:
+
+r   =   rSRC * factorSRC + rDST * factorDST
+    =   rSRC * 0 + rDST * 1
+    =   rDST
+
+g   =   gDST
+
+b   =   bDST
+
+a   =   aDST
+
+
+=>  RESULT MEANS:   Combining this src pixel with the same dst pixel resulted in using only the dst pixel,
+                    which means, using the color and alpha already in the frame buffer.
+
+OBS: This result makes sense, sice the new pixel (from src buffer) is completly transparent.
+
+
+
+Example 2.2:    Translucent SRC Pixel  ( alphaSRC = 0.5 )
+..............................................................................................................
+
+    Source Pixel:                   Destna Pixel:
+    redSRC      =   1.0             redDST      =   1.0
+    greenSRC    =   1.0             greenDST    =   0.0
+    blueSRC     =   1.0             blueDST     =   1.0
+    alphaSRC    =   0.5             alphaDST    =   1.0
+
+
+    factorSRC   =   GL_SRC_ALPHA            =   0.5
+    factorDST   =   GL_ONE_MINUS_SRC_ALPHA  =   1 - 0.5 = 0.5
+
+For this pixel:
+    factorSRC   = 0.5
+    factorDST   = 0.5
+    funcMODE    = GL_FUNC_ADD
+
+
+For this pixel,
+Blending Equation result:
+
+r   =   rSRC * factorSRC + rDST * factorDST
+    =   1.0 * 0.5 + 1.0 * 0.5 = 0.5 + 0.5
+    =   1.0
+
+g   =   gSRC * factorSRC + gDST * factorDST
+    =   1.0 * 0.5 + 0.0 * 0.5
+    =   0.5
+
+b   =   bSRC * factorSRC + bDST * factorDST
+    =   1.0 * 0.5 + 1.0 * 0.5
+    =   1.0
+
+a   =   aSRC * factorSRC + aDST * factorDST
+    =   0.5 * 0.5 + 1.0 * 0.5 = 0.25 + 0.5
+    =   0.75
+
+
+
+
+
+
