@@ -73,7 +73,7 @@ int main(void)
     /*    My Graphics Data (vertexes and vertex indices)              */
     /* ************************************************************** */
     
-    /* SEE TABLE doc/VertexAttributes.txt */
+    /* SEE doc/VertexAttributes.txt */
     
     float vertexAttribs[16] = {
         /*      |------ Vertex pos ------|----- Texture coordinate boundaries -----| */
@@ -129,7 +129,7 @@ int main(void)
      * layout(location = 1) in vec2 texCoord;
      * 
      * Should only be applied if 1st inserted layout represents vertex positions
-     * and the 2nd inserted layout represents texture coordinates non normalized.
+     * and the 2nd inserted layout represents texture coordinates.
      * 
      * Each time a layout is inserted, stride size (Bytes) is auto increased.
      *  
@@ -163,13 +163,30 @@ int main(void)
     
     
     /* ************************************************************** */
-    /*    Projection Matrix                                           */
+    /*    Matrixes                                                    */
     /* ************************************************************** */
-    /* Create 4x4 Matrix with orthographic projection */
-    glm::mat4 proj = glm::ortho(-0.5f, 0.5f, -0.5f, 0.5f, -1.0f, 1.0f);
     
-    /* NOTE: We can play with the aspect ratio */
+    /* proj: Projection Matrix */
+    glm::mat4 proj = glm::ortho(-1.5f, 1.5f, -1.5f, 1.5f, -1.0f, 1.0f);
     
+    /* view: View Matrix - represents Camera position */
+    glm::mat4 view;
+    
+    /**
+     * Move Camera to Right.
+     * 
+     * The effect of moving a Camera to right is got by moving the entire world
+     * to left (oposite movement in all directions) by the same amount of world
+     * units.
+     * 
+     * We achieve this by translating an identity matrix 4x4 and assigning it
+     * to our view matrix.
+     */
+    glm::mat4 identity(1.0f);       /* identity matrix */
+    view = glm::translate(identity, glm::vec3(-1, 0, 0));
+    
+    /* mvp: Model View Projection - The matrix passed to the Shader */
+    glm::mat4 mvp = proj * view;
     
     /* ************************************************************** */
     /* Shaders: Set Uniforms                                          */
@@ -177,7 +194,7 @@ int main(void)
     Shader shader(SHADER_FILE_PATH);
     shader.Bind();
     shader.SetUniform1i("u_Texture", TEXTURE_SLOT__MORIS);
-    shader.SetUniformMat4f("u_MVP", proj);  /* MVP: Model View Projection matrix */
+    shader.SetUniformMat4f("u_MVP", mvp);
     
     /**
      * For Debug purposes,
