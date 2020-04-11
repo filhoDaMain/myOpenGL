@@ -163,13 +163,18 @@ int main(void)
     
     
     /* ************************************************************** */
-    /*    Matrixes                                                    */
+    /*    MVP Matrixes                                                */
     /* ************************************************************** */
     
-    /* proj: Projection Matrix */
+    /* ***************************************************** */
+    /* Projection Matrix (proj) - translates Texture coords  */
+    /* ***************************************************** */
     glm::mat4 proj = glm::ortho(-1.5f, 1.5f, -1.5f, 1.5f, -1.0f, 1.0f);
     
-    /* view: View Matrix - represents Camera position */
+    
+    /* ************************************************* */
+    /*  View Matrix (view) - translates Camera position  */
+    /* ************************************************* */
     glm::mat4 view;
     
     /**
@@ -185,8 +190,26 @@ int main(void)
     glm::mat4 identity(1.0f);       /* identity matrix */
     view = glm::translate(identity, glm::vec3(-1, 0, 0));
     
-    /* mvp: Model View Projection - The matrix passed to the Shader */
-    glm::mat4 mvp = proj * view;
+    
+    /* ************************************************** */
+    /*  Model Matrix (model) - translates Model position  */
+    /* ************************************************** */
+    glm::mat4 model;
+    
+    /**
+     * Moving the model to a certain direction effect is obtained by translating
+     * an identity matrix the amount of units we want in a given direction and
+     * applying the result to the model matrix. 
+     */
+    model = glm::translate(identity, glm::vec3(0.5, 1, 0));
+    
+    
+    /* ************************************************************ */
+    /*  Model View Projection Matrix (mvp) - what goes into Shader  */
+    /* ************************************************************ */
+    glm::mat4 mvp = proj * view * model;    /* Matrix multiplication order matters!*/
+    
+    
     
     /* ************************************************************** */
     /* Shaders: Set Uniforms                                          */
