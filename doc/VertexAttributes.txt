@@ -1,58 +1,71 @@
-/**
- * Vertex Attributes
- * 
- *  Attr    Attribute               Attribute
- *  Index   Name                    Description
- *  ---------------------------------------------------------------------------
- *   0      gl_Vertex               Position (vec4)
- *   1      gl_Normal               Normal (vec4)
- *   2      gl_Color                Primary color of vertex (vec4)
- *   3      gl_MultiTexCoord0       Texture coordinate of texture unit 0 (vec4)
- *   4      gl_MultiTexCoord1       Texture coordinate of texture unit 1 (vec4)
- *   5      gl_MultiTexCoord2       Texture coordinate of texture unit 2 (vec4)
- *   6      gl_MultiTexCoord3       Texture coordinate of texture unit 3 (vec4)
- *   7      gl_MultiTexCoord4       Texture coordinate of texture unit 4 (vec4)
- *   8      gl_MultiTexCoord5       Texture coordinate of texture unit 5 (vec4)
- *   9      gl_MultiTexCoord6       Texture coordinate of texture unit 6 (vec4)
- *  10      gl_MultiTexCoord7       Texture coordinate of texture unit 7 (vec4)
- *  11      gl_FogCoord             Fog Coord (float)
- * 
- */
-
+#1  Define an array of vertexes attributes:
 
     float vertexAttribs[16] = {
-        /*      |--- Vector pos ----|----- Texture coordinate boundaries ----| */
-        /* 0 */     -0.5f, -0.5f,       0.0f, 0.0f  /* bottom left corner */,
-        /* 1 */      0.5f, -0.5f,       1.0f, 0.0f  /* bottom right corner */,
-        /* 2 */      0.5f,  0.5f,       1.0f, 1.0f  /* upper right corner */,
-        /* 3 */     -0.5f,  0.5f,       0.0f, 1.0f  /* upper left corner */
-        /*      |- Attrib index 0 --|-------------- Attrib index 1 ----------| */
-        /*      |-------------- S T R I D E ---------------------------------| */
+        /*      |------ Vertex pos ------|----- Texture coordinate boundaries -----| */
+        /* 0 */     -0.5f, -0.5f,            0.0f, 0.0f  /* bottom left corner */,
+        /* 1 */      0.5f, -0.5f,            1.0f, 0.0f  /* bottom right corner */,
+        /* 2 */      0.5f,  0.5f,            1.0f, 1.0f  /* upper right corner */,
+        /* 3 */     -0.5f,  0.5f,            0.0f, 1.0f  /* upper left corner */
+        /*      |- layout(location = 0) -|--------- layout(location = 1) ----------| */
+        /*      |------------------------ S T R I D E -----------------------------| */
     };
 
 
+    In this example, we choosed to have a stride of 4 floats:
+
+    *   1st pair of floats of each stride representing Vertex positions 
+        (normalized space [-1, 1]);
+
+    *   2nd pair of floats representing Texture coordinate boundaries
+        (normalized space).
+
+
+
+#2  We need to define vertexAttribs layouts (how are floats grouped)
+
+    VertexBufferLayout layout;
+
     /**
-     * Layouts are inserted by vertex attribute index order.
+     * Layouts are inserted in a vector by ascending order of layout
+     * position index.
      * 
-     * This means, 1st inserted layout defines vertex attrib index 0 - position;
-     * next layout defines attrib index 1 - normal;
-     * and so on...
-     * (SEE TABLE doc/VertexAttributes.txt)
+     * This means, 1st inserted layout is stored in (location = 0).
+     * Next one, is inserted in (location = 1), and so on.
      * 
-     * Each time a layout is inserted, stride size (Bytes) is properly updated.
+     * When writing a Shader, one should take notice of the order these layouts
+     * were inserted to correctly reference them.
+     * 
+     * Example:
+     * layout(location = 0) in vec4 position;
+     * layout(location = 1) in vec2 texCoord;
+     * 
+     * Should only be applied if 1st inserted layout represents vertex positions
+     * and the 2nd inserted layout represents texture coordinates non normalized.
+     * 
+     * Each time a layout is inserted, stride size (Bytes) is auto increased.
      *  
      */
-    layout.PushVertexAttribLayout<float>(2);    /* Vertex attrib index 0: as '2' floats */
-    layout.PushVertexAttribLayout<float>(2);    /* Vertex attrib index 1: as '2' floats */
+    layout.PushVertexAttribLayout<float>(2);    /* (location = 0) as '2' floats */
+    layout.PushVertexAttribLayout<float>(2);    /* (location = 1) as '2' floats */
 
 
 
-    /**
-     * Link vertex-buffer (vb) and its layouts with Vertex Array (va).
-     * 
-     * 
-     * |------ stride size --------|--------------------------|
-     *  (x0_f, y0_f), (l0_f, m0_f), (x1_f, y1_f), (l1_f, m1_f),  (...)
-     * |- layout 0 -|-- layout 1 --|- layout 0 -|-- layout 1 --| (...)
-     */
-    va.AddBuffer(vb, layout);            /* NOTE: va is still unbound */
+#3  Correctly reference the layouts in the Shader
+
+    We pushed two layouts, each one being a pair of floats.
+
+    What these pairs actually represent is up to the Shader program.
+
+
+        layout(location = 0) in vec4 position;
+        layout(location = 1) in vec2 texCoord;
+
+
+    This means, Shader will use
+
+    *   1st inserted layout (location = 0) to represent vertex positions
+        
+        NOTE: the mandatory use of vec4, eventhough our layout is formed
+        by two floats (x, y).
+
+    *   2nd inserted layout (location = 1) to represent Texture coordinates

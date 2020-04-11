@@ -76,13 +76,13 @@ int main(void)
     /* SEE TABLE doc/VertexAttributes.txt */
     
     float vertexAttribs[16] = {
-        /*      |--- Vector pos ----|----- Texture coordinate boundaries ----| */
-        /* 0 */     -0.5f, -0.5f,       0.0f, 0.0f  /* bottom left corner */,
-        /* 1 */      0.5f, -0.5f,       1.0f, 0.0f  /* bottom right corner */,
-        /* 2 */      0.5f,  0.5f,       1.0f, 1.0f  /* upper right corner */,
-        /* 3 */     -0.5f,  0.5f,       0.0f, 1.0f  /* upper left corner */
-        /*      |- Attrib index 0 --|-------------- Attrib index 1 ----------| */
-        /*      |-------------- S T R I D E ---------------------------------| */
+        /*      |------ Vertex pos ------|----- Texture coordinate boundaries -----| */
+        /* 0 */     -0.5f, -0.5f,            0.0f, 0.0f  /* bottom left corner */,
+        /* 1 */      0.5f, -0.5f,            1.0f, 0.0f  /* bottom right corner */,
+        /* 2 */      0.5f,  0.5f,            1.0f, 1.0f  /* upper right corner */,
+        /* 3 */     -0.5f,  0.5f,            0.0f, 1.0f  /* upper left corner */
+        /*      |- layout(location = 0) -|--------- layout(location = 1) ----------| */
+        /*      |------------------------ S T R I D E -----------------------------| */
     };
     
     /* Using vertexAttribs indices to specify each triangle vertex */
@@ -115,18 +115,27 @@ int main(void)
     VertexBufferLayout layout;
     
     /**
-     * Layouts are inserted by vertex attribute index order.
+     * Layouts are inserted in a vector by ascending order of layout
+     * position index.
      * 
-     * This means, 1st inserted layout defines vertex attrib index 0 - position;
-     * next layout defines attrib index 1 - normal;
-     * and so on...
-     * (SEE TABLE doc/VertexAttributes.txt)
+     * This means, 1st inserted layout is stored in (location = 0).
+     * Next one, is inserted in (location = 1), and so on.
      * 
-     * Each time a layout is inserted, stride size (Bytes) is properly updated.
+     * When writing a Shader, one should take notice of the order these layouts
+     * were inserted to correctly reference them.
+     * 
+     * Example:
+     * layout(location = 0) in vec4 position;
+     * layout(location = 1) in vec2 texCoord;
+     * 
+     * Should only be applied if 1st inserted layout represents vertex positions
+     * and the 2nd inserted layout represents texture coordinates non normalized.
+     * 
+     * Each time a layout is inserted, stride size (Bytes) is auto increased.
      *  
      */
-    layout.PushVertexAttribLayout<float>(2);    /* Vertex attrib index 0: as '2' floats */
-    layout.PushVertexAttribLayout<float>(2);    /* Vertex attrib index 1: as '2' floats */
+    layout.PushVertexAttribLayout<float>(2);    /* (location = 0) as '2' floats */
+    layout.PushVertexAttribLayout<float>(2);    /* (location = 1) as '2' floats */
     
     /**
      * Link vertex-buffer (vb) and its layouts with Vertex Array (va).
