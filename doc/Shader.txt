@@ -1,0 +1,75 @@
+VERTEX SHADER
+**********************************************************************************************************
+
+Vertex Shader program is executed per each Vertex.
+
+
+#1  Get Vertex Position from 1st vertex-buffer layout:
+        
+        layout(location = 0) in vec4 position;
+
+
+
+#2  Get Texture Coordinates from 2nd vertex-buffer layout:
+
+        layout(location = 1) in vec2 texCoord;
+
+
+
+#3  Export Texture Coordinates to be used by the Fragment Shader:
+
+        out vec2 v_TexCoord;
+
+
+
+#4  Get projection matrix as a Uniform:
+
+        uniform mat4 u_MVP;
+
+
+
+#5  Compute Vertex Position in the normalized space [-1, 1]x,y,z by
+    multiplying the vertex position with the projection matrix
+    (NOTE that Vertex Shader runs per each Vertex)
+
+        void main()
+        {
+            gl_Position = u_MVP * position;     /* Compute normalized position for current Vertex */
+            v_TexCoord = texCoord;              /* Export texCoord (layout location = 1) as v_TexCoord */
+        }
+
+
+
+
+FRAGMENT SHADER
+**********************************************************************************************************
+
+Fragment Shader program is executed per each Pixel.
+
+
+#1  Export current Pixel Color as a vec4 (rgba) in layout location = 0
+
+        layout(location = 0) out vec4 color;
+
+
+
+#2  Import Texture Coordinate (exported by Vertex Shader)
+
+        in vec2 v_TexCoord;
+
+
+
+#3  Import Texture Image as a Sampler2D Uniform:
+
+        uniform sampler2D u_Texture;
+
+
+
+#4  Sample the Texture for current Pixel being drawn
+    This means, sample the Texture pixel color for the Texture pixel closest to current Pixel being drawn
+
+        void main()
+        {
+            vec4 texColor = texture(u_Texture, v_TexCoord); 
+            color = texColor;
+        }
