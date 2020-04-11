@@ -1,0 +1,34 @@
+glm::mat4 proj = glm::ortho(-0.5f, 0.5f, -0.5f, 0.5f, -1.0f, 1.0f);
+                            ~~~~~  ~~~~  ~~~~~  ~~~~  ~~~~~  ~~~~
+                              ^     ^      ^     ^      ^     ^
+              left boundary __|     |      |     |      |     |__ Z farest boundary
+                                    |      |     |      |
+                                    |      |     |      |
+                                    |      |     |     Z nearest boundary
+                                    |      |     |
+                                    |      |     |
+                                    |      |   upper
+                                    |      |   boundary
+                                    |      |
+                                    |      |
+                                    |   bottom
+                                    |   boundary
+                                    |
+                                    |
+                                right boundary
+
+
+The vertex boundary positions in the normalized space [-1, 1] x,y,z of the rendered picture are 
+computed by multiplying the vertex boundary positions with the projection matrix view boundaries:
+
+Example:
+Vertex position minX maxX   =  -0.5, 1.0
+Projection Matrix           =  -0.5, 0.5, -0.5, 0.5 [ignoring Z values]
+
+Vertex boundary position in the normalized space [-1, 1] x,y,z:
+(-0.5 * -0.5, 1.0 * 0.5) = (-0.5,  0.5)
+                             ^      ^
+                           min X  max X
+
+
+

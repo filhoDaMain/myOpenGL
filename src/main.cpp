@@ -32,7 +32,7 @@
 #define MY_COLOR_UNIFORM4   "u_Color"   /* vec4 uniform name for color */
 
 /* Texture slots */
-#define TEXTURE_SLOT__MORIS  0           /* The slot where our texture is bound */
+#define TEXTURE_SLOT__MORIS  0          /* The slot where our texture is bound */
 
 int main(void)
 {
