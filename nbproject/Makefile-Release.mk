@@ -43,6 +43,12 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/VertexBuffer.o \
 	${OBJECTDIR}/src/VertexBufferLayout.o \
 	${OBJECTDIR}/src/main.o \
+	${OBJECTDIR}/src/vendor/imgui/imgui.o \
+	${OBJECTDIR}/src/vendor/imgui/imgui_demo.o \
+	${OBJECTDIR}/src/vendor/imgui/imgui_draw.o \
+	${OBJECTDIR}/src/vendor/imgui/imgui_impl_glfw.o \
+	${OBJECTDIR}/src/vendor/imgui/imgui_impl_opengl3.o \
+	${OBJECTDIR}/src/vendor/imgui/imgui_widgets.o \
 	${OBJECTDIR}/src/vendor/stb/stb_image.o
 
 
@@ -109,6 +115,36 @@ ${OBJECTDIR}/src/main.o: src/main.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/main.o src/main.cpp
+
+${OBJECTDIR}/src/vendor/imgui/imgui.o: src/vendor/imgui/imgui.cpp
+	${MKDIR} -p ${OBJECTDIR}/src/vendor/imgui
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/vendor/imgui/imgui.o src/vendor/imgui/imgui.cpp
+
+${OBJECTDIR}/src/vendor/imgui/imgui_demo.o: src/vendor/imgui/imgui_demo.cpp
+	${MKDIR} -p ${OBJECTDIR}/src/vendor/imgui
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/vendor/imgui/imgui_demo.o src/vendor/imgui/imgui_demo.cpp
+
+${OBJECTDIR}/src/vendor/imgui/imgui_draw.o: src/vendor/imgui/imgui_draw.cpp
+	${MKDIR} -p ${OBJECTDIR}/src/vendor/imgui
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/vendor/imgui/imgui_draw.o src/vendor/imgui/imgui_draw.cpp
+
+${OBJECTDIR}/src/vendor/imgui/imgui_impl_glfw.o: src/vendor/imgui/imgui_impl_glfw.cpp
+	${MKDIR} -p ${OBJECTDIR}/src/vendor/imgui
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/vendor/imgui/imgui_impl_glfw.o src/vendor/imgui/imgui_impl_glfw.cpp
+
+${OBJECTDIR}/src/vendor/imgui/imgui_impl_opengl3.o: src/vendor/imgui/imgui_impl_opengl3.cpp
+	${MKDIR} -p ${OBJECTDIR}/src/vendor/imgui
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/vendor/imgui/imgui_impl_opengl3.o src/vendor/imgui/imgui_impl_opengl3.cpp
+
+${OBJECTDIR}/src/vendor/imgui/imgui_widgets.o: src/vendor/imgui/imgui_widgets.cpp
+	${MKDIR} -p ${OBJECTDIR}/src/vendor/imgui
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/vendor/imgui/imgui_widgets.o src/vendor/imgui/imgui_widgets.cpp
 
 ${OBJECTDIR}/src/vendor/stb/stb_image.o: src/vendor/stb/stb_image.cpp
 	${MKDIR} -p ${OBJECTDIR}/src/vendor/stb

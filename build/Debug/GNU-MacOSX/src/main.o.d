@@ -128,7 +128,9 @@ build/Debug/GNU-MacOSX/src/main.o: src/main.cpp lib/include/GL/glew.h \
   src/vendor/glm/./ext/matrix_clip_space.inl \
   src/vendor/glm/gtc/../ext/matrix_transform.hpp \
   src/vendor/glm/./ext/matrix_transform.inl \
-  src/vendor/glm/gtc/matrix_transform.inl
+  src/vendor/glm/gtc/matrix_transform.inl src/vendor/imgui/imgui.h \
+  src/vendor/imgui/imconfig.h src/vendor/imgui/imgui_impl_glfw.h \
+  src/vendor/imgui/imgui_impl_opengl3.h
 
 lib/include/GL/glew.h:
 
@@ -435,3 +437,11 @@ src/vendor/glm/gtc/../ext/matrix_transform.hpp:
 src/vendor/glm/./ext/matrix_transform.inl:
 
 src/vendor/glm/gtc/matrix_transform.inl:
+
+src/vendor/imgui/imgui.h:
+
+src/vendor/imgui/imconfig.h:
+
+src/vendor/imgui/imgui_impl_glfw.h:
+
+src/vendor/imgui/imgui_impl_opengl3.h:

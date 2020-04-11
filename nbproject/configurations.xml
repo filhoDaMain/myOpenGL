@@ -28,6 +28,12 @@
       <itemPath>src/VertexArray.cpp</itemPath>
       <itemPath>src/VertexBuffer.cpp</itemPath>
       <itemPath>src/VertexBufferLayout.cpp</itemPath>
+      <itemPath>src/vendor/imgui/imgui.cpp</itemPath>
+      <itemPath>src/vendor/imgui/imgui_demo.cpp</itemPath>
+      <itemPath>src/vendor/imgui/imgui_draw.cpp</itemPath>
+      <itemPath>src/vendor/imgui/imgui_impl_glfw.cpp</itemPath>
+      <itemPath>src/vendor/imgui/imgui_impl_opengl3.cpp</itemPath>
+      <itemPath>src/vendor/imgui/imgui_widgets.cpp</itemPath>
       <itemPath>src/main.cpp</itemPath>
       <itemPath>src/vendor/stb/stb_image.cpp</itemPath>
     </logicalFolder>
@@ -101,6 +107,24 @@
       </item>
       <item path="src/main.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="src/vendor/imgui/imgui.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/vendor/imgui/imgui_demo.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/vendor/imgui/imgui_draw.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/vendor/imgui/imgui_impl_glfw.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/vendor/imgui/imgui_impl_opengl3.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/vendor/imgui/imgui_widgets.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="src/vendor/stb/stb_image.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/vendor/stb/stb_image.h" ex="false" tool="3" flavor2="0">
@@ -157,6 +181,24 @@
       <item path="src/VertexBufferLayout.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/vendor/imgui/imgui.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/vendor/imgui/imgui_demo.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/vendor/imgui/imgui_draw.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/vendor/imgui/imgui_impl_glfw.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/vendor/imgui/imgui_impl_opengl3.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="src/vendor/imgui/imgui_widgets.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/vendor/stb/stb_image.cpp" ex="false" tool="1" flavor2="0">
       </item>
