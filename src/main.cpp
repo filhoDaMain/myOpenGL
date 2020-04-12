@@ -194,8 +194,8 @@ int main(void)
      * to our view matrix.
      */
     glm::mat4 identity(1.0f);       /* identity matrix */
-    view = glm::translate(identity, glm::vec3(-1, 0, 0));
-    
+    //view = glm::translate(identity, glm::vec3(-1, 0, 0));
+    view = identity;
     
     /* ************************************************** */
     /*  Model Matrix (model) - translates Model position  */
@@ -207,7 +207,8 @@ int main(void)
      * an identity matrix the amount of units we want in a given direction and
      * applying the result to the model matrix. 
      */
-    model = glm::translate(identity, glm::vec3(0.5, 1, 0));
+    //model = glm::translate(identity, glm::vec3(0.5, 1, 0));
+    model = identity;
     
     
     /* ************************************************************ */
@@ -233,6 +234,8 @@ int main(void)
     ImGui_ImplOpenGL3_Init(glsl_version);
     
     
+    glm::vec3 translation(0.0f, 0.0f, 0.0f);
+    
     /**
      * For Debug purposes,
      * unbind everything
@@ -251,18 +254,26 @@ int main(void)
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
+        
+#if 0
         bool show_demo_window = true;
         bool show_another_window = false;
         ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+#endif
         
         /* Shader has to be bound prior to Update a uniform */
         shader.Bind();
+        
+        model = glm::translate(identity, translation);
+        mvp = proj * view * model;    /* Matrix multiplication order matters!*/
+        shader.SetUniformMat4f("u_MVP", mvp);
         
         /* Draw Call */
         renderer.Draw(va, ib, shader); 
       
         /* Simple Window */
         {
+#if 0
             static float f = 0.0f;
             static int counter = 0;
 
@@ -271,17 +282,23 @@ int main(void)
             ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
             ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
             ImGui::Checkbox("Another Window", &show_another_window);
-
-            ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+#endif
+            
+            //ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+            
+            ImGui::SliderFloat("float", &translation.x, -1.5f, 1.5f);            // Edit 1 float using a slider from 0.0f to 1.0f
+            
+#if 0
             ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
 
             if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
                 counter++;
             ImGui::SameLine();
             ImGui::Text("counter = %d", counter);
-
+#endif
+            
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-            ImGui::End();
+            //ImGui::End();
         }
         
         ImGui::Render();
