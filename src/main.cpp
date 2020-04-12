@@ -278,6 +278,9 @@ int main(void)
         
             /* My Draw Call */
             renderer.Draw(va, ib, shader); 
+            
+            /* Apply Slider's value to translationA matrix's X value */
+            ImGui::SliderFloat("Moris A", &translationA.x, -1.5f, 1.5f);
         }
         
         /* Model B */
@@ -291,11 +294,13 @@ int main(void)
         
             /* My Draw Call */
             renderer.Draw(va, ib, shader); 
+            
+            /* Apply Slider's value to translationB matrix's X value */
+            ImGui::SliderFloat("Moris B", &translationB.x, -1.5f, 1.5f);
         }
 
       
-        /* Apply Slider's value to translationA matrix's X value */
-        ImGui::SliderFloat("Moris X position", &translationA.x, -1.5f, 1.5f);   /* X boundaries = proj's X boundaries */
+        
 
         /* ImGui Render Call */
         ImGui::Render();
