@@ -26,13 +26,15 @@
  */
 
 /* Shaders */
-#define SHADER_FILE_PATH    "./res/shaders/Basic.shader"
+#define SHADER_FILE_PATH        "./res/shaders/Basic.shader"
 
 /* Textures */
-#define TEXTURE_PATH__MORIS "./res/textures/Moris_28x20cm.png"
+#define TEXTURE_PATH__MORIS     "./res/textures/Moris_28x20cm.png"
 
 /* Uniforms */
-#define MY_COLOR_UNIFORM4   "u_Color"   /* vec4 uniform name for color */
+#define MY_COLOR_UNIFORM4_NAME          "u_Color"   /* Uniform name for color */
+#define MVP_MATRIX_UNIFORMMAT4F_NAME    "u_MVP"     /* Uniform name for MVP matrix */
+#define TEXTURE_SLOT_UNIFORM1I_NAME     "u_Texture" /* Uniform name for slot integer */
 
 /* Texture slots */
 #define TEXTURE_SLOT__MORIS  0          /* The slot where our texture is bound */
@@ -223,18 +225,19 @@ int main(void)
     /* ************************************************************** */
     Shader shader(SHADER_FILE_PATH);
     shader.Bind();
-    shader.SetUniform1i("u_Texture", TEXTURE_SLOT__MORIS);
-    shader.SetUniformMat4f("u_MVP", mvp);
+    shader.SetUniform1i(TEXTURE_SLOT_UNIFORM1I_NAME, TEXTURE_SLOT__MORIS);
+    shader.SetUniformMat4f(MVP_MATRIX_UNIFORMMAT4F_NAME, mvp);
     
     
+    /* ************************************************************** */
+    /*  ImGui Init                                                    */
+    /* ************************************************************** */
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGui::StyleColorsDark();
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
     
-    
-    glm::vec3 translation(0.0f, 0.0f, 0.0f);
     
     /**
      * For Debug purposes,
@@ -245,62 +248,39 @@ int main(void)
     ib.Unbind();        /* unbind index-buffer */
     shader.Unbind();    /* unbind shader */
     
+    
+    /**
+     * Translation matrix to apply a new model translation
+     * inside the Render while loop.
+     */
+    glm::vec3 translation(0.0f, 0.0f, 0.0f);
+    
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
         /* Clear screen */
         renderer.Clear();
         
+        /* ImGui Frame Init */
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
         
-#if 0
-        bool show_demo_window = true;
-        bool show_another_window = false;
-        ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-#endif
-        
         /* Shader has to be bound prior to Update a uniform */
         shader.Bind();
         
+        /* Update model position based on a new translation's X value */
         model = glm::translate(identity, translation);
-        mvp = proj * view * model;    /* Matrix multiplication order matters!*/
-        shader.SetUniformMat4f("u_MVP", mvp);
+        mvp = proj * view * model;
+        shader.SetUniformMat4f(MVP_MATRIX_UNIFORMMAT4F_NAME, mvp);
         
-        /* Draw Call */
+        /* My Draw Call */
         renderer.Draw(va, ib, shader); 
       
-        /* Simple Window */
-        {
-#if 0
-            static float f = 0.0f;
-            static int counter = 0;
+        /* Apply Slider's value to translation matrix's X value */
+        ImGui::SliderFloat("Moris X position", &translation.x, -1.5f, 1.5f);   /* X boundaries = proj's X boundaries */
 
-            ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
-
-            ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-            ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-            ImGui::Checkbox("Another Window", &show_another_window);
-#endif
-            
-            //ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-            
-            ImGui::SliderFloat("float", &translation.x, -1.5f, 1.5f);            // Edit 1 float using a slider from 0.0f to 1.0f
-            
-#if 0
-            ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
-
-            if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-                counter++;
-            ImGui::SameLine();
-            ImGui::Text("counter = %d", counter);
-#endif
-            
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-            //ImGui::End();
-        }
-        
+        /* ImGui Render Call */
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         
