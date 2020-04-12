@@ -12,6 +12,7 @@
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
+#include "tests/TestClearColor.h"
 
 #include <iostream>
 #include <fstream>
@@ -256,17 +257,25 @@ int main(void)
     glm::vec3 translationA(0.0f, 0.0f, 0.0f);
     glm::vec3 translationB(0.0f, 0.5f, 0.0f);
     
+    test::TestClearColor test;
+    
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
         /* Clear screen */
         renderer.Clear();
         
+        test.OnUpdate(0.0f);
+        test.OnRender();
+        
         /* ImGui Frame Init */
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
         
+        test.OnImGuiRender();
+        
+#if 0
         /* Model A */
         {
             model = glm::translate(identity, translationA);
@@ -298,9 +307,7 @@ int main(void)
             /* Apply Slider's value to translationB matrix's X value */
             ImGui::SliderFloat("Moris B", &translationB.x, -1.5f, 1.5f);
         }
-
-      
-        
+#endif
 
         /* ImGui Render Call */
         ImGui::Render();

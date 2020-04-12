@@ -1,8 +1,9 @@
-build/Debug/GNU-MacOSX/src/main.o: src/main.cpp lib/include/GL/glew.h \
-  lib/include/GLFW/glfw3.h include/Renderer.h include/VertexArray.h \
-  include/VertexBuffer.h include/IndexBuffer.h include/Shader.h \
-  src/vendor/glm/glm.hpp src/vendor/glm/detail/_fixes.hpp \
-  src/vendor/glm/detail/setup.hpp \
+build/Debug/GNU-MacOSX/dbg_src/TestClearColor.o: \
+  dbg_src/TestClearColor.cpp dbg_src/tests/TestClearColor.h \
+  dbg_src/tests/Test.h include/Renderer.h lib/include/GL/glew.h \
+  include/VertexArray.h include/VertexBuffer.h include/IndexBuffer.h \
+  include/Shader.h src/vendor/glm/glm.hpp \
+  src/vendor/glm/detail/_fixes.hpp src/vendor/glm/detail/setup.hpp \
   src/vendor/glm/detail/../simd/platform.h src/vendor/glm/fwd.hpp \
   src/vendor/glm/detail/qualifier.hpp src/vendor/glm/vec2.hpp \
   src/vendor/glm/./ext/vector_bool2.hpp \
@@ -116,28 +117,16 @@ build/Debug/GNU-MacOSX/src/main.o: src/main.cpp lib/include/GL/glew.h \
   src/vendor/glm/packing.hpp src/vendor/glm/detail/func_packing.inl \
   src/vendor/glm/detail/type_half.hpp \
   src/vendor/glm/detail/type_half.inl src/vendor/glm/integer.hpp \
-  src/vendor/glm/detail/func_integer.inl include/VertexBufferLayout.h \
-  include/Texture.h src/vendor/glm/gtc/matrix_transform.hpp \
-  src/vendor/glm/gtc/../ext/matrix_projection.hpp \
-  src/vendor/glm/./ext/../gtc/constants.hpp \
-  src/vendor/glm/gtc/../ext/scalar_constants.hpp \
-  src/vendor/glm/./ext/scalar_constants.inl \
-  src/vendor/glm/gtc/constants.inl \
-  src/vendor/glm/./ext/matrix_projection.inl \
-  src/vendor/glm/gtc/../ext/matrix_clip_space.hpp \
-  src/vendor/glm/./ext/matrix_clip_space.inl \
-  src/vendor/glm/gtc/../ext/matrix_transform.hpp \
-  src/vendor/glm/./ext/matrix_transform.inl \
-  src/vendor/glm/gtc/matrix_transform.inl src/vendor/imgui/imgui.h \
-  src/vendor/imgui/imconfig.h src/vendor/imgui/imgui_impl_glfw.h \
-  src/vendor/imgui/imgui_impl_opengl3.h dbg_src/tests/TestClearColor.h \
-  dbg_src/tests/Test.h
+  src/vendor/glm/detail/func_integer.inl src/vendor/imgui/imgui.h \
+  src/vendor/imgui/imconfig.h
 
-lib/include/GL/glew.h:
+dbg_src/tests/TestClearColor.h:
 
-lib/include/GLFW/glfw3.h:
+dbg_src/tests/Test.h:
 
 include/Renderer.h:
+
+lib/include/GL/glew.h:
 
 include/VertexArray.h:
 
@@ -411,42 +400,6 @@ src/vendor/glm/integer.hpp:
 
 src/vendor/glm/detail/func_integer.inl:
 
-include/VertexBufferLayout.h:
-
-include/Texture.h:
-
-src/vendor/glm/gtc/matrix_transform.hpp:
-
-src/vendor/glm/gtc/../ext/matrix_projection.hpp:
-
-src/vendor/glm/./ext/../gtc/constants.hpp:
-
-src/vendor/glm/gtc/../ext/scalar_constants.hpp:
-
-src/vendor/glm/./ext/scalar_constants.inl:
-
-src/vendor/glm/gtc/constants.inl:
-
-src/vendor/glm/./ext/matrix_projection.inl:
-
-src/vendor/glm/gtc/../ext/matrix_clip_space.hpp:
-
-src/vendor/glm/./ext/matrix_clip_space.inl:
-
-src/vendor/glm/gtc/../ext/matrix_transform.hpp:
-
-src/vendor/glm/./ext/matrix_transform.inl:
-
-src/vendor/glm/gtc/matrix_transform.inl:
-
 src/vendor/imgui/imgui.h:
 
 src/vendor/imgui/imconfig.h:
-
-src/vendor/imgui/imgui_impl_glfw.h:
-
-src/vendor/imgui/imgui_impl_opengl3.h:
-
-dbg_src/tests/TestClearColor.h:
-
-dbg_src/tests/Test.h:

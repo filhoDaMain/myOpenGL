@@ -7,6 +7,8 @@
       <itemPath>include/IndexBuffer.h</itemPath>
       <itemPath>include/Renderer.h</itemPath>
       <itemPath>include/Shader.h</itemPath>
+      <itemPath>dbg_src/tests/Test.h</itemPath>
+      <itemPath>dbg_src/tests/TestClearColor.h</itemPath>
       <itemPath>include/Texture.h</itemPath>
       <itemPath>include/VertexArray.h</itemPath>
       <itemPath>include/VertexBuffer.h</itemPath>
@@ -24,6 +26,7 @@
       <itemPath>src/IndexBuffer.cpp</itemPath>
       <itemPath>src/Renderer.cpp</itemPath>
       <itemPath>src/Shader.cpp</itemPath>
+      <itemPath>dbg_src/TestClearColor.cpp</itemPath>
       <itemPath>src/Texture.cpp</itemPath>
       <itemPath>src/VertexArray.cpp</itemPath>
       <itemPath>src/VertexBuffer.cpp</itemPath>
@@ -64,6 +67,8 @@
             <pElem>lib/include</pElem>
             <pElem>include</pElem>
             <pElem>src/vendor</pElem>
+            <pElem>dbg_src/tests</pElem>
+            <pElem>dbg_src</pElem>
           </incDir>
           <commandLine>-ggdb</commandLine>
         </ccTool>
@@ -75,6 +80,12 @@
           <commandLine>-framework CoreFoundation -framework CoreGraphics -framework IOKit -framework AppKit -framework OpenGL</commandLine>
         </linkerTool>
       </compileType>
+      <item path="dbg_src/TestClearColor.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="dbg_src/tests/Test.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="dbg_src/tests/TestClearColor.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/IndexBuffer.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/Renderer.h" ex="false" tool="3" flavor2="0">
@@ -150,6 +161,12 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="dbg_src/TestClearColor.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="dbg_src/tests/Test.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="dbg_src/tests/TestClearColor.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/IndexBuffer.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/Renderer.h" ex="false" tool="3" flavor2="0">

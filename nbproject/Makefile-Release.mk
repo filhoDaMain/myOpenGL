@@ -35,6 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/dbg_src/TestClearColor.o \
 	${OBJECTDIR}/src/IndexBuffer.o \
 	${OBJECTDIR}/src/Renderer.o \
 	${OBJECTDIR}/src/Shader.o \
@@ -75,6 +76,11 @@ LDLIBSOPTIONS=
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/myopengl: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/myopengl ${OBJECTFILES} ${LDLIBSOPTIONS}
+
+${OBJECTDIR}/dbg_src/TestClearColor.o: dbg_src/TestClearColor.cpp
+	${MKDIR} -p ${OBJECTDIR}/dbg_src
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/dbg_src/TestClearColor.o dbg_src/TestClearColor.cpp
 
 ${OBJECTDIR}/src/IndexBuffer.o: src/IndexBuffer.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
