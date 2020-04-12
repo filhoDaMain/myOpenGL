@@ -253,7 +253,8 @@ int main(void)
      * Translation matrix to apply a new model translation
      * inside the Render while loop.
      */
-    glm::vec3 translation(0.0f, 0.0f, 0.0f);
+    glm::vec3 translationA(0.0f, 0.0f, 0.0f);
+    glm::vec3 translationB(0.0f, 0.5f, 0.0f);
     
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
@@ -266,19 +267,35 @@ int main(void)
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
         
-        /* Shader has to be bound prior to Update a uniform */
-        shader.Bind();
+        /* Model A */
+        {
+            model = glm::translate(identity, translationA);
+            mvp = proj * view * model;
+            
+            /* Shader has to be bound prior to Update a uniform */
+            shader.Bind();
+            shader.SetUniformMat4f(MVP_MATRIX_UNIFORMMAT4F_NAME, mvp);
         
-        /* Update model position based on a new translation's X value */
-        model = glm::translate(identity, translation);
-        mvp = proj * view * model;
-        shader.SetUniformMat4f(MVP_MATRIX_UNIFORMMAT4F_NAME, mvp);
+            /* My Draw Call */
+            renderer.Draw(va, ib, shader); 
+        }
         
-        /* My Draw Call */
-        renderer.Draw(va, ib, shader); 
+        /* Model B */
+        {
+            model = glm::translate(identity, translationB);
+            mvp = proj * view * model;
+            
+            /* Shader has to be bound prior to Update a uniform */
+            shader.Bind();
+            shader.SetUniformMat4f(MVP_MATRIX_UNIFORMMAT4F_NAME, mvp);
+        
+            /* My Draw Call */
+            renderer.Draw(va, ib, shader); 
+        }
+
       
-        /* Apply Slider's value to translation matrix's X value */
-        ImGui::SliderFloat("Moris X position", &translation.x, -1.5f, 1.5f);   /* X boundaries = proj's X boundaries */
+        /* Apply Slider's value to translationA matrix's X value */
+        ImGui::SliderFloat("Moris X position", &translationA.x, -1.5f, 1.5f);   /* X boundaries = proj's X boundaries */
 
         /* ImGui Render Call */
         ImGui::Render();
