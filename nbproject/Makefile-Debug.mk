@@ -35,6 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/dbg_src/Test.o \
 	${OBJECTDIR}/dbg_src/TestClearColor.o \
 	${OBJECTDIR}/src/IndexBuffer.o \
 	${OBJECTDIR}/src/Renderer.o \
@@ -80,6 +81,11 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/myopengl: lib/libGLEW.a
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/myopengl: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/myopengl ${OBJECTFILES} ${LDLIBSOPTIONS} -framework CoreFoundation -framework CoreGraphics -framework IOKit -framework AppKit -framework OpenGL
+
+${OBJECTDIR}/dbg_src/Test.o: dbg_src/Test.cpp
+	${MKDIR} -p ${OBJECTDIR}/dbg_src
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -Ilib/include -Iinclude -Isrc/vendor -Idbg_src/tests -Idbg_src -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/dbg_src/Test.o dbg_src/Test.cpp
 
 ${OBJECTDIR}/dbg_src/TestClearColor.o: dbg_src/TestClearColor.cpp
 	${MKDIR} -p ${OBJECTDIR}/dbg_src

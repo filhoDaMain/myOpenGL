@@ -26,6 +26,7 @@
       <itemPath>src/IndexBuffer.cpp</itemPath>
       <itemPath>src/Renderer.cpp</itemPath>
       <itemPath>src/Shader.cpp</itemPath>
+      <itemPath>dbg_src/Test.cpp</itemPath>
       <itemPath>dbg_src/TestClearColor.cpp</itemPath>
       <itemPath>src/Texture.cpp</itemPath>
       <itemPath>src/VertexArray.cpp</itemPath>
@@ -80,6 +81,8 @@
           <commandLine>-framework CoreFoundation -framework CoreGraphics -framework IOKit -framework AppKit -framework OpenGL</commandLine>
         </linkerTool>
       </compileType>
+      <item path="dbg_src/Test.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="dbg_src/TestClearColor.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="dbg_src/tests/Test.h" ex="false" tool="3" flavor2="0">
@@ -161,6 +164,8 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="dbg_src/Test.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="dbg_src/TestClearColor.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="dbg_src/tests/Test.h" ex="false" tool="3" flavor2="0">
