@@ -8,7 +8,7 @@
 
 Shader::Shader(const std::string& filepath)
     : m_FilePath(filepath), m_RendererID(0)
-{
+{    
     ShaderSourceCode shaderSource = ParseShader(filepath);
     m_RendererID = CreateShader(shaderSource.vertexSource,
                                 shaderSource.fragmentSource);

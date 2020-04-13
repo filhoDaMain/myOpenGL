@@ -37,6 +37,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/dbg_src/Test.o \
 	${OBJECTDIR}/dbg_src/tests/TestClearColor.o \
+	${OBJECTDIR}/dbg_src/tests/TestTexture2D.o \
 	${OBJECTDIR}/src/IndexBuffer.o \
 	${OBJECTDIR}/src/Renderer.o \
 	${OBJECTDIR}/src/Shader.o \
@@ -87,6 +88,11 @@ ${OBJECTDIR}/dbg_src/tests/TestClearColor.o: dbg_src/tests/TestClearColor.cpp
 	${MKDIR} -p ${OBJECTDIR}/dbg_src/tests
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/dbg_src/tests/TestClearColor.o dbg_src/tests/TestClearColor.cpp
+
+${OBJECTDIR}/dbg_src/tests/TestTexture2D.o: dbg_src/tests/TestTexture2D.cpp
+	${MKDIR} -p ${OBJECTDIR}/dbg_src/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/dbg_src/tests/TestTexture2D.o dbg_src/tests/TestTexture2D.cpp
 
 ${OBJECTDIR}/src/IndexBuffer.o: src/IndexBuffer.cpp
 	${MKDIR} -p ${OBJECTDIR}/src
