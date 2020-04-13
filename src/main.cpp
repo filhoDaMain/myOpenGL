@@ -12,8 +12,8 @@
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
+#include "Test.h"
 #include "tests/TestClearColor.h"
-#include "tests/Test.h"
 
 #include <iostream>
 #include <fstream>

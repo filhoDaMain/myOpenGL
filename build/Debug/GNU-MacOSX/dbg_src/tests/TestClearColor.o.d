@@ -1,6 +1,6 @@
-build/Debug/GNU-MacOSX/dbg_src/TestClearColor.o: \
-  dbg_src/TestClearColor.cpp dbg_src/tests/TestClearColor.h \
-  dbg_src/tests/Test.h include/Renderer.h lib/include/GL/glew.h \
+build/Debug/GNU-MacOSX/dbg_src/tests/TestClearColor.o: \
+  dbg_src/tests/TestClearColor.cpp dbg_src/tests/TestClearColor.h \
+  dbg_src/Test.h include/Renderer.h lib/include/GL/glew.h \
   include/VertexArray.h include/VertexBuffer.h include/IndexBuffer.h \
   include/Shader.h src/vendor/glm/glm.hpp \
   src/vendor/glm/detail/_fixes.hpp src/vendor/glm/detail/setup.hpp \
@@ -122,7 +122,7 @@ build/Debug/GNU-MacOSX/dbg_src/TestClearColor.o: \
 
 dbg_src/tests/TestClearColor.h:
 
-dbg_src/tests/Test.h:
+dbg_src/Test.h:
 
 include/Renderer.h:
 

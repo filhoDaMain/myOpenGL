@@ -130,8 +130,8 @@ build/Debug/GNU-MacOSX/src/main.o: src/main.cpp lib/include/GL/glew.h \
   src/vendor/glm/./ext/matrix_transform.inl \
   src/vendor/glm/gtc/matrix_transform.inl src/vendor/imgui/imgui.h \
   src/vendor/imgui/imconfig.h src/vendor/imgui/imgui_impl_glfw.h \
-  src/vendor/imgui/imgui_impl_opengl3.h dbg_src/tests/TestClearColor.h \
-  dbg_src/tests/Test.h
+  src/vendor/imgui/imgui_impl_opengl3.h dbg_src/Test.h \
+  dbg_src/tests/TestClearColor.h
 
 lib/include/GL/glew.h:
 
@@ -447,6 +447,6 @@ src/vendor/imgui/imgui_impl_glfw.h:
 
 src/vendor/imgui/imgui_impl_opengl3.h:
 
-dbg_src/tests/TestClearColor.h:
+dbg_src/Test.h:
 
-dbg_src/tests/Test.h:
+dbg_src/tests/TestClearColor.h:
