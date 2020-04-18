@@ -9,8 +9,9 @@
 /* My Tests Framework */
 /* *************************************************************** */
 #include "Test.h"
-#include "tests/TestClearColor.h"   /* Change Clear Color */
-#include "tests/TestTexture2D.h"    /* 2D Texture Manipulation */
+#include "tests/TestClearColor.h"       /* Change Clear Color */
+#include "tests/TestTexture2D.h"        /* 2D Texture Manipulation */
+#include "tests/TestBatchRendering.h"   /* Batch Rendering */
 /* *************************************************************** */
 
 
@@ -68,8 +69,11 @@ int main(void)
     test::Test* currentTest = nullptr;
     test::TestMenu* testMenu = new test::TestMenu(currentTest);
     currentTest = testMenu; /* Current ImGui Screen */
+    
+    /* Tests / Examples: */
     testMenu->RegisterTest<test::TestClearColor>("Clear Color");
     testMenu->RegisterTest<test::TestTexture2D>("Texture 2D");
+    testMenu->RegisterTest<test::TestBatchRendering>("Batch Rendering");
     
     
     /* ************************************************************** */

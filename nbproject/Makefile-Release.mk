@@ -36,6 +36,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/dbg_src/Test.o \
+	${OBJECTDIR}/dbg_src/tests/TestBatchRendering.o \
 	${OBJECTDIR}/dbg_src/tests/TestClearColor.o \
 	${OBJECTDIR}/dbg_src/tests/TestTexture2D.o \
 	${OBJECTDIR}/src/IndexBuffer.o \
@@ -83,6 +84,11 @@ ${OBJECTDIR}/dbg_src/Test.o: dbg_src/Test.cpp
 	${MKDIR} -p ${OBJECTDIR}/dbg_src
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/dbg_src/Test.o dbg_src/Test.cpp
+
+${OBJECTDIR}/dbg_src/tests/TestBatchRendering.o: dbg_src/tests/TestBatchRendering.cpp
+	${MKDIR} -p ${OBJECTDIR}/dbg_src/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/dbg_src/tests/TestBatchRendering.o dbg_src/tests/TestBatchRendering.cpp
 
 ${OBJECTDIR}/dbg_src/tests/TestClearColor.o: dbg_src/tests/TestClearColor.cpp
 	${MKDIR} -p ${OBJECTDIR}/dbg_src/tests
